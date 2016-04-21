@@ -117,7 +117,7 @@ deactivate
 
 Navigate to the `deploy/` directory and edit the variables at the top of `deploy.sh`. Do **not** include a trailing `/` at the end of the path names.
 
-- `VENV_DIR` is the absolute path to the directory to the virtual environment created.
+- `VENV_DIR` is the absolute path to the directory of the virtual environment created.
 - `INSTALL_DIR` is the absolute path to the directory where you want the application to be installed to.
 - `SERVER_NAME` is the domain name that the application will be served to.
 
