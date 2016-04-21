@@ -2,8 +2,8 @@
 
 from flask import Flask, render_template, request
 from sqlalchemy.exc import IntegrityError
-from core.database import db_session
-from core.models import User
+from app.core.database import db_session
+from app.core.models import User
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def register():
             user = User(_username, _password, _email)
             db_session.add(user)
             db_session.commit()
-            
+
             print("Register successful!")
 
         except IntegrityError as e:
@@ -50,6 +50,3 @@ def login():
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
-
-if __name__ == "__main__":
-    app.run(debug=True)

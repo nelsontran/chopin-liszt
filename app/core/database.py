@@ -5,8 +5,12 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 import json
+import os
 
-with open("config.json") as c:
+path_to_config = \
+    os.path.join(os.path.dirname(__file__), "../../config.json")
+
+with open(path_to_config) as c:
     config = json.load(c)
     engine = create_engine("mysql+pymysql://" + \
                            config["user"] + ":" + \

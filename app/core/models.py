@@ -2,7 +2,7 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
-from core.database import Base
+from app.core.database import Base
 
 class User(Base):
     __tablename__ = "users"
