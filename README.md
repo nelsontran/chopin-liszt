@@ -2,8 +2,9 @@
 
 ¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪¸¸.•*¨*•♫♪
 
-## Table of Contents
+# Table of Contents
 
+- [chopin-liszt](#chopin-liszt)
 - [Table of Contents](#table-of-contents)
 - [Setup Instructions](#setup-instructions)
 	- [Clone the Repository](#clone-the-repository)
@@ -16,16 +17,16 @@
 	- [Set up a Virtual Environment](#set-up-a-virtual-environment)
 	- [Run the Deploy Script](#run-the-deploy-script)
 
-## Setup Instructions
+# Setup Instructions
 
-### Clone the Repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/nelsontran/chopin-liszt
 cd chopin-liszt/
 ```
 
-### Install System Dependencies
+## Install System Dependencies
 
 Install [Python 3](https://www.python.org/) and [MySQL Server](https://www.mysql.com/).
 
@@ -33,7 +34,7 @@ Install [Python 3](https://www.python.org/) and [MySQL Server](https://www.mysql
 sudo apt-get install python3 mysql-client mysql-server libmysqlclient-dev
 ```
 
-### Install Python Dependencies
+## Install Python Dependencies
 
 Install [Flask](http://flask.pocoo.org/), [SQLAlchemy](http://www.sqlalchemy.org/), and [PyMySQL](https://github.com/PyMySQL/PyMySQL).
 
@@ -41,7 +42,7 @@ Install [Flask](http://flask.pocoo.org/), [SQLAlchemy](http://www.sqlalchemy.org
 sudo pip3 install flask flask-sqlalchemy pymysql
 ```
 
-### Configure MySQL
+## Configure MySQL
 
 Connect to your MySQL server and create a database.
 
@@ -64,7 +65,7 @@ python3
 >>> exit()
 ```
 
-### Run the Application
+## Run the Application
 
 ```bash
 python3 chopin_liszt.py
@@ -72,11 +73,11 @@ python3 chopin_liszt.py
 
 In your browser, navigate to `localhost:5000`.
 
-## Deploying to a LAMP stack
+# Deploying to a LAMP stack
 
 You need to have a LAMP (Linux, Apache, MySQL, and Python) stack installed on your server.
 
-### Install and Enable `mod_wsgi`
+## Install and Enable `mod_wsgi`
 
 WSGI (Web Server Gateway Interface) is a specification for interface between web servers and web applications for Python. Install the `mod_wsgi` Apache HTTP server mod that allows Apache to serve Flask applications.
 
@@ -90,7 +91,7 @@ Enable `mod_wsgi`.
 sudo a2enmod wsgi
 ```
 
-### Set up a Virtual Environment
+## Set up a Virtual Environment
 
 `virtualenv` is a tool that will create sandboxed Python execution environments. This will keep the application dependencies separated from the main system.
 
@@ -113,7 +114,7 @@ Next, install the Python dependencies listed in [Install Python Dependencies](#i
 deactivate
 ```
 
-### Run the Deploy Script
+## Run the Deploy Script
 
 Navigate to the `deploy/` directory and edit the variables at the top of `deploy.sh`. Do **not** include a trailing `/` at the end of the path names.
 
