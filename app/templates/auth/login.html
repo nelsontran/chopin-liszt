@@ -10,7 +10,7 @@
 <body>
     <div class="login-page">
         <div class="form">
-            <form class="register-form" action="{{ url_for('register') }}" method="post">
+            <form class="register-form" action="{{ url_for('auth.register') }}" method="post">
                 <input type="text" name="username" placeholder="username" value="{{ request.form.username }}" />
                 <input type="password" name="password" placeholder="password" value="{{ request.form.password }}" />
                 <input type="text" name="email" placeholder="email address" value="{{ request.form.email }}" />
@@ -18,7 +18,7 @@
                 <p class="message">Already registered? <a href="#">Sign In</a>
                 </p>
             </form>
-            <form class="login-form" action="{{ url_for('login') }}" method="post">
+            <form class="login-form" action="{{ url_for('auth.login') }}" method="post">
                 <input type="text" name="username" placeholder="username" value="{{ request.form.username }}" />
                 <input type="password" name="password" placeholder="password" value="{{ request.form.password }}" />
                 <button id="login-btn">login</button>

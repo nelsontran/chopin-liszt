@@ -1,51 +1,23 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request
-from sqlalchemy.exc import IntegrityError
+from flask import Flask
+from flask.ext.login import LoginManager
 from app.core.database import db_session
-from app.core.models import User
+from app.mod.auth.views import auth
+from app.mod.auth.models import User
+from app.mod.landing.views import landing
 
 app = Flask(__name__)
 
-@app.route("/")
-def main():
-    return render_template("index.html")
+app.register_blueprint(auth)
+app.register_blueprint(landing)
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        try:
-            _username = request.form["username"]
-            _password = request.form["password"]
-            _email = request.form["email"]
+login_manager = LoginManager()
+login_manager.init_app(app)
 
-            user = User(_username, _password, _email)
-            db_session.add(user)
-            db_session.commit()
-
-            print("Register successful!")
-
-        except IntegrityError as e:
-            print("Username or email already in use.")
-
-    return render_template("index.html", display_register_form=True)
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        _username = request.form["username"];
-        _password = request.form["password"];
-
-        user = db_session.query(User) \
-                         .filter(User.username.like(_username)) \
-                         .first()
-
-        if user.check_password(_password) is True:
-            print("Login successful!")
-        else:
-            print("Login failed...")
-
-    return render_template("index.html", display_register_form=False)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

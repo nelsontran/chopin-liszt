@@ -2,9 +2,10 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
+from flask.ext.login import UserMixin
 from app.core.database import Base
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     username = Column(String(16), unique=True)
@@ -18,6 +19,9 @@ class User(Base):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def get(id):
+        return User.query.get(int(id))
 
     def __repr__(self):
         return "<User %r>" % (self.name)
