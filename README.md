@@ -39,7 +39,7 @@ sudo apt-get install python3 mysql-client mysql-server libmysqlclient-dev
 Install [Flask](http://flask.pocoo.org/), [SQLAlchemy](http://www.sqlalchemy.org/), and [PyMySQL](https://github.com/PyMySQL/PyMySQL).
 
 ```bash
-sudo pip3 install flask flask-sqlalchemy pymysql
+sudo pip3 install flask flask-sqlalchemy flask-login pymysql
 ```
 
 ## Configure MySQL
@@ -68,7 +68,7 @@ python3
 ## Run the Application
 
 ```bash
-python3 chopin_liszt.py
+python3 run_server.py
 ```
 
 In your browser, navigate to `localhost:5000`.
@@ -121,6 +121,7 @@ Navigate to the `deploy/` directory and edit the variables at the top of `deploy
 - `VENV_DIR` is the absolute path to the directory of the virtual environment created.
 - `INSTALL_DIR` is the absolute path to the directory where you want the application to be installed to.
 - `SERVER_NAME` is the domain name that the application will be served to.
+- `SECRET_KEY` is the key used to sign user session cookies. Keep this really secret.
 
 Save and run the script to deploy the application. This will install `chopin-liszt` to the specified deployment directory and configure the Apache server to run the application.
 

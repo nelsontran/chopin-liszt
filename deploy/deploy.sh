@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
+# # # # # # # # # # # # # # # # # # # # #
+#             CONFIGURATION             #
+# # # # # # # # # # # # # # # # # # # # #
+
 VENV_DIR="/absolute/path/to/venv"
 INSTALL_DIR="/absolute/path/to/installation"
 SERVER_NAME="example.net"
+SECRET_KEY="R):g?%H3x#@],v&{q/3di(XIn}#8a"
+
+# # # # # # # # # # # # # # # # # # # # #
+#             CONFIGURATION             #
+# # # # # # # # # # # # # # # # # # # # #
 
 VIRTUAL_HOST="/etc/apache2/sites-available/${SERVER_NAME}.conf"
 
@@ -22,11 +31,13 @@ cp ../config.json ${INSTALL_DIR}/config.json
 E_VENV_DIR="$(echo $VENV_DIR | sed -e 's/[\/&]/\\&/g')"
 E_INSTALL_DIR="$(echo $INSTALL_DIR | sed -e 's/[\/&]/\\&/g')"
 E_SERVER_NAME="$(echo $SERVER_NAME | sed -e 's/[\/&]/\\&/g')"
+E_SECRET_KEY="$(echo $SECRET_KEY | sed -e 's/[\/&]/\\&/g')"
 
 echo "  > Configuring WSGI file..."
 cp ./wsgi/app.wsgi ${INSTALL_DIR}/app.wsgi
 sed -i -e "s/{{ INSTALL_DIR }}/${E_INSTALL_DIR}/g" ${INSTALL_DIR}/app.wsgi
 sed -i -e "s/{{ VENV_DIR }}/${E_VENV_DIR}/g" ${INSTALL_DIR}/app.wsgi
+sed -i -e "s/{{ SECRET_KEY }}/${E_SECRET_KEY}/g" ${INSTALL_DIR}/app.wsgi
 
 echo "  > Setting up Apache virtual host..."
 cp ./apache/virtualhost.conf /etc/apache2/sites-available/${SERVER_NAME}.conf

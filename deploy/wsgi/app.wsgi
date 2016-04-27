@@ -12,3 +12,4 @@ exec(open(activate_this).read(), dict(__file__=activate_this))
 
 # get application object
 from app import app as application
+app.secret_key = "{{ SECRET_KEY }}"
