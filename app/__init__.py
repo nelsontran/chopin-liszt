@@ -2,7 +2,7 @@
 
 from flask import Flask
 from flask.ext.login import LoginManager
-from app.core.database import db_session
+from app.database import db_session
 from app.mod.auth.views import auth
 from app.mod.auth.models import User
 from app.mod.landing.views import landing

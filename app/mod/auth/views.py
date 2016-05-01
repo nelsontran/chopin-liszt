@@ -3,7 +3,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask.ext.login import login_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
-from app.core.database import db_session
+from app.database import db_session
 from app.mod.auth.models import User
 from app.mod.landing.views import landing
 

@@ -3,7 +3,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 from flask.ext.login import UserMixin
-from app.core.database import Base
+from app.database import Base
 
 class User(Base, UserMixin):
     __tablename__ = "users"
