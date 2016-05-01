@@ -8,9 +8,9 @@ from app.database import Base
 class User(Base, UserMixin):
     __tablename__ = "user"
     user_id = Column(Integer, primary_key=True)
-    first_name = Column(String(16))
-    last_name = Column(String(16))
-    username = Column(String(16), unique=True)
+    first_name = Column(String(32))
+    last_name = Column(String(32))
+    username = Column(String(32), unique=True)
     password = Column(String(128))
     email = Column(String(256), unique=True)
 
@@ -26,6 +26,9 @@ class User(Base, UserMixin):
 
     def get(id):
         return User.query.get(int(id))
+
+    def get_id(self):
+        return self.user_id
 
     def __repr__(self):
         return "<User %r>" % (self.name)
