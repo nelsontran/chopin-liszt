@@ -6,13 +6,17 @@ from flask.ext.login import UserMixin
 from app.database import Base
 
 class User(Base, UserMixin):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = "user"
+    user_id = Column(Integer, primary_key=True)
+    first_name = Column(String(16))
+    last_name = Column(String(16))
     username = Column(String(16), unique=True)
     password = Column(String(128))
     email = Column(String(256), unique=True)
 
-    def __init__(self, username=None, password=None, email=None):
+    def __init__(self, first_name=None, last_name=None, username=None, password=None, email=None):
+        self.first_name = first_name
+        self.last_name = last_name
         self.username = username
         self.password = generate_password_hash(password)
         self.email = email
