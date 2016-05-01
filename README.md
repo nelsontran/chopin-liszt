@@ -49,7 +49,7 @@ Connect to your MySQL server and create a database.
 ```bash
 mysql -h localhost -P 3306 -u username -p
 
-> CREATE DATABASE chopin-liszt;
+> CREATE DATABASE chopin_liszt;
 > exit
 ```
 
@@ -60,7 +60,7 @@ Setup the database tables by executing the following Python code.
 ```python
 python3
 
->>> from app.core.database import init_db
+>>> from app.database import init_db
 >>> init_db()
 >>> exit()
 ```
