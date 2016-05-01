@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>View Project</title>
+</head>
+	<body>
+		<ul>
+  			<li><a class="active" href="#home">Home</a></li>
+  			<li class="projects-menu">
+    			<a href="#" class="dropbtn" onclick="#">Project</a>
+    			<div class="project-content" id="myProject">
+      			<a href="CreateProject.html">New Project</a>
+      			<a href="CreateTask.html">Create Task</a>
+      			<a href="Task.html">View Task</a>
+    			</div>
+  			</li>
+			<li><a href="#about">About</a></li>  			
+		</ul>
+		<div>
+			<br>Project ID<input type="text" name="project_id" placeholder="Project ID" value="{{request.form.project_id}}">
+			<!-- This is supposed to be a dynamic list item, need to fix it -->
+			<br><br><label for="name">Project Name</label><input type="text" name="name" value="{{request.form.name}}">
+			<!-- End Dynamic List Here -->
+			Collaborators<input type="text" id="colla" name="colla" value="{{request.form.collaborators}}">
+			Current Status<input type="text" id="status" name="status" value="{{request.form.status}}">			
+		</div>		
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>View Task</title>
+</head>
+	<body>
+		<ul>
+  			<li><a class="active" href="#home">Home</a></li>
+  			<li class="projects-menu">
+    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
+    			<div class="project-content" id="myProject">
+      			<a href="CreateProject.html">New Project</a>
+      			<a href="CreateTask.html">Create Task</a>
+      			<a href="#">View Task</a>
+    			</div>
+  			</li>
+			<li><a href="#about">About</a></li>  			
+		</ul>
+		<h5><div class="project-content" id="myProject" />
+			<br>Task ID<br><input type="text" name="task_id" value="{{request.form.task_id}}" /><br>
+			<br>Start Time<br><input type="text" name="start_time" value="{{request.form.start_time}}"/><br>
+			<br>End Time<br><input type="text" name="end_time" value="{{request.form.end_time}}"/><br>
+			<br>Description<br><input type="text" name="description" value="{{request.form.description}}"></textarea><br>
+		</div>
+		<div class="status-radio" id="myStatus">
+			<p>Current Status<br><input type="text" id="status" name="status" value="{{request.form.status}}"/></p>			
+		</div></h5>
+	</body>
+</html>

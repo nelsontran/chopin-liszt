@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>View Task</title>
+</head>
+	<body>
+		<ul>
+  			<li><a class="active" href="#home">Home</a></li>
+  			<li class="projects-menu">
+    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
+    			<div class="project-content" id="myProject">
+      			<a href="CreateProject.html">New Project</a>
+      			<a href="#">Create Task</a>
+      			<a href="Task.html">View Task</a>
+    			</div>
+  			</li>
+			<li><a href="#about">About</a></li>  			
+		</ul>
+		<h5><div>
+			<br>Task ID<br><input type="text" name="task_id" placeholder="Project ID" value="{{request.form.task_id}}" /><br>
+			<br>Start Time<br><input type="text" name="start_time" placeholder="00:00 pm" value="{{request.form.start_time}}" /><br>
+			<br>End Time<br><input type="text" name="end_time" placeholder="00:00 am" value="{{request.form.end_time}}" /><br>
+			<br>Description<br><input type="text" name="description" placeholder="Project Description" value="{{request.form.description}}"></textarea><br>
+		</div></h5>
+		<div>
+			<h5>Status</h5>
+			<input type="radio" name="status" id="open" value="{{request.form.status}}" checked />
+			<label for="open"> Open </label><br>
+			<br><input type="radio" name="status" id="close" value="{{request.form.status}}" />	
+			<label for="close"> Close </label><br>
+		</div>
+		<div>
+  			<br><input type="submit" id="submit-btn" value="Submit" /><br>
+  		</div>
+	</body>
+</html>
