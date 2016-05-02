@@ -1,7 +1,7 @@
 {
-    "user":     "root",
-    "password": "password",
-    "host":     "127.0.0.1",
-    "port":     "3306",
-    "database": "chopin-liszt"
+    "user":     "ser322",
+    "password": "ser322passworD",
+    "host":     "64.104.132.169",
+    "port":     "32216",
+    "database": "final_322"
 }
