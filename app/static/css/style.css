@@ -5,12 +5,18 @@
     margin: auto;
 }
 
+nav img {
+    width: auto;
+    height: 32px;
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #405f32;
+    height: 64px;
 }
 
 nav li {
@@ -29,14 +35,10 @@ nav li a:hover {
     background-color: #111;
 }
 
-nav li img {
-    position: absolute;
-    top: 0px;
-}
 
 .flat-table {
     table-layout:fixed;
-    background: #52be7f;
+    background: #FFFFFF;
     width: 100%;
 	margin-bottom: 20px;
 	border-collapse:collapse;
@@ -56,13 +58,13 @@ nav li img {
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
 	padding: 1em;
-	color: rgba(0,0,0,0.45);
+	color: #b3b3b3;
 	text-shadow: 0 0 1px rgba(0,0,0,0.1);
 	font-size: 1em;
 }
 
 .flat-table td {
-	color: #f7f7f7;
+	color: #222222;
 	padding: 0.7em 1em 0.7em 1.15em;
 	text-shadow: 0 0 1px rgba(255,255,255,0.1);
 	font-size: 1em;
@@ -87,7 +89,7 @@ nav li img {
 .form {
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
+    background: #fad5e5;
     max-width: 940px;
     margin: 0 auto 100px;
     padding: 45px;
@@ -111,7 +113,7 @@ nav li img {
     font-family: "Oxygen", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4CAF50;
+    background: #f7b1cf;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -125,7 +127,7 @@ nav li img {
 .form button:hover,
 .form button:active,
 .form button:focus {
-    background: #43A047;
+    background: #fad5e5;
 }
 
 .form .message {

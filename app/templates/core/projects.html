@@ -10,12 +10,21 @@
 </head>
 
 <body>
-	<nav class="nav-bar">
-		<ul>
-			<li><a href="{{ url_for('landing.index') }}"><img src="http://lorempixel.com/40/40/"></a></li>
-			<li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
-		</ul>
-	</nav>
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 
 	<div class="login-page">
 		<div class="form">
