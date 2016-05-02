@@ -10,14 +10,24 @@
 </head>
 
 <body>
-    {% if current_user.is_authenticated %}
-      Hi {{ current_user.username }}! Click <a href="{{ url_for("auth.logout") }}">here</a> to logout.
-    {% else %}
-      Click <a href="{{ url_for("auth.login") }}">here</a> to login.
-    {% endif %}
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><img src="/static/img/ser322_tasklily_lily_128.png"></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 
 </body>
 

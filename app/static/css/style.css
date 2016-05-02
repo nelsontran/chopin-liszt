@@ -5,6 +5,35 @@
     margin: auto;
 }
 
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #405f32;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+nav li img {
+    position: absolute;
+    top: 0px;
+}
+
 .flat-table {
     table-layout:fixed;
     background: #52be7f;
