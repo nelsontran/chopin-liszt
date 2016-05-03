@@ -29,7 +29,6 @@
 	<div class="create-task-page">
 		<div class="form">
 			<form class="project-form" action="{{ url_for('core.create_task', project_id=project_id) }}" method="post">
-				<input type="text" name="name" placeholder="Task Name" value="{{ request.form.name }}" />
 				<input type="text" name="description" placeholder="Description" value="{{ request.form.description }}" />
 				<input type="text" name="tags" placeholder="Tags (comma separated list)" value=""{{ request.form.tags }}" />
 

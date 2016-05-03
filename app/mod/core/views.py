@@ -121,6 +121,8 @@ def create_task(project_id):
             db_session.add(tag)
             db_session.commit()
 
+        return redirect(url_for("core.tasks", project_id=project_id))
+
     return render_template("create_task.html", project_id=project_id)
 
 @core.route("/projects/<int:project_id>/log/<int:task_id>")
@@ -130,8 +132,15 @@ def time_entries(project_id, task_id):
 
 @core.route("/remove_project")
 def remove_project():
-    project_id = request.args.get('id', 0, type=int)
-    Project.remove_project(project_id)
+    _project_id = request.args.get('id', 0, type=int)
+    _user_id = current_user.get_id()
+
+    group = ProjectPermission.get_permission(_user_id, _project_id)
+
+    if group == 'admin':
+        Project.remove_project(_project_id)
+    else:
+        ProjectPermission.del_user(_user_id, _project_id)
 
     return jsonify(result=True)
 
@@ -144,13 +153,13 @@ def remove_task():
 @core.route("/complete_task")
 def complete_task():
     task_id = request.args.get('id', 0, type=int)
-    Task.change_status(id)
+    Task.change_status(task_id)
     return jsonify(result=True)
 
 @core.route("/uncomplete_task")
 def uncomplete_task():
     task_id = request.args.get('id', 0, type=int)
-    Task.change_status(id)
+    Task.change_status(task_id)
     return jsonify(result=True)
 
 @core.route("/get_collaborator")

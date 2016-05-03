@@ -68,6 +68,22 @@ class ProjectPermission(Base):
     def get_uid(self):
         return self.user_id
 
+    def del_user(user_id, project_id):
+        sql = text ('delete from project_permission where user_id=' + str(user_id) + ' and ' \
+                    'project_id="' + str(project_id) + '"')
+        result = engine.execute(sql)
+
+    def get_permission(user_id, project_id):
+        sql = text ('select pp.group \
+                        from project_permission pp \
+                        where pp.user_id ="' + str(user_id) \
+                        + '" and pp.project_id ="' + str(project_id) + '"')
+        result = engine.execute(sql)
+        for row in result:
+            group = row[0]
+
+        return group
+
     def __repr__(self):
         return "<ProjectPermission %r>" % (self.project_id)
 
@@ -78,6 +94,33 @@ class TimeEntry(Base):
     user_id = Column(Integer, ForeignKey("user.user_id"), unique=True)
     start_time = Column(DateTime)
     end_time = Column(DateTime)
+
+    def __init__(self, task_id=None, user_id=None, date=None, start_time=None, end_time=None):
+        self.task_id = task_id
+        self.user_id = user_id
+
+        stime = date + ' ' + start_time
+        self.start_time = datetime.strptime(stime, '%Y-%m-%d %H:%M')
+
+        etime = date + ' ' + end_time
+        self.end_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
+
+    def get(id):
+        return TimeEntry.query.get(int(id))
+
+    def get_tid(self):
+        return self.task_id
+
+    def get_uid(self):
+        return self.user_id
+
+    def remove_entry (id):
+        db_session.query(TimeEntry).filter(TimeEntry.time_entry_id == id)\
+                          .delete(synchronize_session='evaluate')
+        db_session.commit()
+
+    def __repr__(self):
+        return "<TimeEntry %r>" % (self.time_entry_id)
 
 class Task(Base):
     __tablename__ = "task"
@@ -130,20 +173,15 @@ class Task(Base):
                           .delete(synchronize_session='evaluate')
         db_session.commit()
 
-    def change_status(id):
-        sql = text ('select t.status from task t \
-                     where t.task_id="' + str(id) + '"')
-
-        result = engine.execute(sql)
-        for i in result:
-            print(i[0])
-            status = i[0]
+    def change_status(task_id):
+        print("The task_id is " + str(task_id))
+        status = Task.get(str(task_id)).get_status()
 
         if status == "Open":
-            sql = text('update task set status="Closed" where task.task_id="' + str(id) + '"')
+            sql = text('update task set status="Closed" where task.task_id="' + str(task_id) + '"')
             result = engine.execute(sql)
         else:
-            sql = text('update task set status="Open" where task.task_id="' + str(id) + '"')
+            sql = text('update task set status="Open" where task.task_id="' + str(task_id) + '"')
             result = engine.execute(sql)
 
     def __repr__(self):
