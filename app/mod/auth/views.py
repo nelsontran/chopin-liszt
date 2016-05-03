@@ -13,11 +13,13 @@ auth = Blueprint("auth", __name__, template_folder="../../templates/auth")
 def register():
     if request.method == "POST":
         try:
+            _first_name = request.form["firstname"]
+            _last_name = request.form["lastname"]
             _username = request.form["username"]
             _password = request.form["password"]
             _email = request.form["email"]
 
-            user = User(username=_username, password=_password, email=_email)
+            user = User(first_name=_first_name, last_name=_last_name, username=_username, password=_password, email=_email)
             db_session.add(user)
             db_session.commit()
 

@@ -122,6 +122,14 @@ nav li a:hover {
     font-size: 14px;
 }
 
+#names {
+  width: 45%;
+}
+
+input[name="firstname"] {
+    margin-right: 9.5%;
+}
+
 .form button {
     font-family: "Oxygen", sans-serif;
     text-transform: uppercase;
