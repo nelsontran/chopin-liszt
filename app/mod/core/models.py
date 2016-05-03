@@ -3,7 +3,7 @@
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, text
 from sqlalchemy.orm import relationship
 from app.mod.auth.models import User
-from app.database import Base, engine
+from app.database import Base, db_session, engine
 import enum
 
 class Project(Base):
@@ -39,6 +39,14 @@ class Project(Base):
             print ("Project: ", row[0],'\t',row[1])
 
         return projects
+
+    def remove_project(id):
+        print("remove_project called: " + str(id))
+        #sql = text('delete from project where project_id="'+ str(id) + '"')
+        #engine.execute(sql)
+        db_session.query(Project).filter(Project.project_id == id)\
+                          .delete(synchronize_session='evaluate')
+        db_session.commit()
 
     def __repr__(self):
         return "<Project %r>" % (self.name)

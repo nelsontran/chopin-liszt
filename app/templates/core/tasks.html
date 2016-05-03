@@ -73,10 +73,22 @@
 					{% endfor %}
 				</table>
 			</form>
+
+			<form>
+				<button type="button" style="margin-bottom: 32px;">Stop</button>
+				<button type="button" style="margin-bottom: 32px;">Stop</button>
+			</form>
 		</div>
 	</div>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+	<script type="text/javascript">
+        $('#start-timer').click(function() {
+            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+    </script>
+
 	<script type="text/javascript">
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 

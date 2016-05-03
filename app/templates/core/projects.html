@@ -69,7 +69,7 @@
             $('#owned-projects, #shared-projects').on('click', '#remove-project', function() {
                 that = this;
                 $.getJSON($SCRIPT_ROOT + '/remove_project', {
-                    id: $(this).closest('a').attr('id')
+                    id: $(this).parent().parent().find('a').attr('id')
                 }, function(data) {
 					if (data.result == true) {
                     	$(that).closest('tr').remove();

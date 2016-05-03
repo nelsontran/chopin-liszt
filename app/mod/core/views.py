@@ -102,6 +102,8 @@ def create_task(project_id):
 
 @core.route("/remove_project")
 def remove_project():
+    project_id = request.args.get('id', 0, type=int)
+    Project.remove_project(project_id)
     return jsonify(result=True)
 
 @core.route("/remove_task")
