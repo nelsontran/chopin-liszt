@@ -9,10 +9,12 @@ from app.database import db_session
 
 core = Blueprint("core", __name__, template_folder="../../templates/core")
 
-@core.route("/projects", methods=["GET", "POST"])
+@core.route("/projects", methods=["GET"])
 @login_required
 def projects():
-    return render_template("projects.html")
+    data = Project.get_projects(current_user)
+
+    return render_template("projects.html", data=data)
 
 @core.route("/projects/<int:project_id>", methods=["GET", "POST"])
 @login_required
@@ -67,6 +69,10 @@ def create_project():
 def create_task(project_id):
     return render_template("create_task.html")
 
+@core.route("/remove_project")
+def remove_project():
+    return jsonify(result=True)
+
 @core.route("/get_collaborator")
 def get_collaborator():
     email = request.args.get('email', 0, type=str)
@@ -80,6 +86,5 @@ def get_collaborator():
 
 @core.route("/remove_collaborator")
 def remove_collaborator():
-    print("remove_collaborator()")
     email = request.args.get('email', 0, type=str)
     return jsonify(result=True)

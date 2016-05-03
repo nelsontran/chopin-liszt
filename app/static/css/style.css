@@ -97,6 +97,13 @@ nav li a:hover {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
+.form h1 {
+    font-size: 24px;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
 .form input {
     font-family: "Oxygen", sans-serif;
     outline: 0;

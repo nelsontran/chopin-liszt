@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, text
 from sqlalchemy.orm import relationship
 from app.mod.auth.models import User
-from app.database import Base
+from app.database import Base, engine
 import enum
 
 class Project(Base):
@@ -21,6 +21,23 @@ class Project(Base):
 
     def get_id(self):
         return self.project_id
+
+    def get_projects(user):
+        sql =  text('select distinct p.name, p.project_id\
+                     from project p, user u, project_permission pp \
+                     where pp.user_id=u.user_id')
+
+        result = engine.execute(sql)
+        print ("result: ", result)
+        projects = { "name": [], "id": [] }
+
+
+        for row in result:
+            projects["name"].append(row[0])
+            projects["id"].append(row[1])
+            print ("Project: ", row[0],'\t',row[1])
+
+        return projects
 
     def __repr__(self):
         return "<Project %r>" % (self.name)
