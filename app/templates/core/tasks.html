@@ -76,28 +76,6 @@
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
         $(function() {
-			$(document).on('click', '#start-timer', function() {
-				$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-				return false;
-			});
-
-			$(document).on('click', '#timer-cancel', function() {
-				$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-				return false;
-			});
-
-			$(document).on('click', '#timer-submit', function() {
-				$.getJSON($SCRIPT_ROOT + '/record_time_entry', {
-					project_id: {{ project_id }},
-					date: $('#date').val(),
-					start_time: $('#start-time').val(),
-					end_time: $('#end-time').val()
-				}, function(data) {
-					$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-				});
-				return false;
-			});
-
             $('#active-tasks, #completed-tasks').on('click', '#remove-task', function() {
                 that = this;
                 $.getJSON($SCRIPT_ROOT + '/remove_task', {

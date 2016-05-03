@@ -128,7 +128,7 @@ def create_task(project_id):
 @core.route("/projects/<int:project_id>/log/<int:task_id>")
 @login_required
 def time_entries(project_id, task_id):
-    return render_template("timeentry.html")
+    return render_template("timeentry.html", project_id=project_id, task_id=task_id)
 
 @core.route("/remove_project")
 def remove_project():
