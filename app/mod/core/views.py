@@ -9,6 +9,10 @@ from app.database import db_session
 
 core = Blueprint("core", __name__, template_folder="../../templates/core")
 
+@core.errorhandler(401)
+def page_not_found(e):
+    return redirect(url_for('auth.login'), 401)
+
 @core.route("/projects", methods=["GET"])
 @login_required
 def projects():
