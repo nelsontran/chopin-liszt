@@ -29,6 +29,19 @@
 	<div class="tasks-page">
 		<div class="form">
 			<form id="create-task" action="{{ url_for('core.create_task', project_id=project_id) }}">
+
+                <h1>Collaborators</h1>
+                <table id="collaborators" class="flat-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        {% if current_user.is_admin %}
+                            <th>Remove</th>
+                        {% endif %}
+                    </tr>
+                </table>
+                <br>
+
 				<button type="submit" style="margin-bottom: 32px;">Create New Task</button>
 				<h1>Active Tasks</h1>
 				<table id="active-tasks" class="flat-table">
