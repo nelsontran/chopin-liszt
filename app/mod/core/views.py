@@ -63,7 +63,6 @@ def create_project():
         try:
             _project_name = request.form["name"]
             _collaborator_emails = request.form.getlist("emails[]")
-            _permissions = request.form.getlist("permissions[]")
 
             project = Project(name=_project_name)
             db_session.add(project)
@@ -86,7 +85,7 @@ def create_project():
                               .first()
 
                 if c is not None:
-                    permission = ProjectPermission(user_id=c.user_id, project_id=p_id, group=_permissions[i])
+                    permission = ProjectPermission(user_id=c.user_id, project_id=p_id, group="user")
                     db_session.add(permission)
                     db_session.commit()
                     print("Permission added for collaborator!", c.get_full_name())
