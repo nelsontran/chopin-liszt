@@ -20,7 +20,24 @@ def projects():
 @core.route("/projects/<int:project_id>", methods=["GET", "POST"])
 @login_required
 def tasks(project_id):
-    return render_template("tasks.html")
+    active_tasks = {}
+    completed_tasks = {}
+
+    dummy_data = {
+        "id": [1, 2, 3, 4, 5],
+        "name": ["Task #1", "Task #2", "Task #3", "Task #4", "Task #5"],
+        "description": ["Hello World", "Practice Etudes", "Lorem Ipsum", "Practice Tchaikovsky", "Practice Beethoven"],
+        "time_spent": [12, 14, 51, 64, 74]
+    }
+
+    dummy_data2 = {
+        "id": [1],
+        "name": ["Task #0"],
+        "description": ["Drink Water"],
+        "time_spent": [154]
+    }
+
+    return render_template("tasks.html", active_tasks=dummy_data, completed_tasks=dummy_data2)
 
 @core.route("/projects/create", methods=["GET", "POST"])
 @login_required
@@ -72,7 +89,18 @@ def create_task(project_id):
 
 @core.route("/remove_project")
 def remove_project():
-    
+    return jsonify(result=True)
+
+@core.route("/remove_task")
+def remove_task():
+    return jsonify(result=True)
+
+@core.route("/complete_task")
+def complete_task():
+    return jsonify(result=True)
+
+@core.route("/uncomplete_task")
+def uncomplete_task():
     return jsonify(result=True)
 
 @core.route("/get_collaborator")

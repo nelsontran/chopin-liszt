@@ -1,30 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<title>View Task</title>
+    <title>Chopin Liszt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
 </head>
-	<body>
-		<ul>
-  			<li><a class="active" href="#home">Home</a></li>
-  			<li class="projects-menu">
-    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
-    			<div class="project-content" id="myProject">
-      			<a href="CreateProject.html">New Project</a>
-      			<a href="CreateTask.html">Create Task</a>
-      			<a href="#">View Task</a>
-    			</div>
-  			</li>
-			<li><a href="#about">About</a></li>  			
-		</ul>
-		<h5><div class="project-content" id="myProject" />
-			<br>Task ID<br><input type="text" name="task_id" value="{{request.form.task_id}}" /><br>
-			<br>Start Time<br><input type="text" name="start_time" value="{{request.form.start_time}}"/><br>
-			<br>End Time<br><input type="text" name="end_time" value="{{request.form.end_time}}"/><br>
-			<br>Description<br><input type="text" name="description" value="{{request.form.description}}"></textarea><br>
+
+<body>
+	<nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+	<div class="login-page">
+		<div class="form">
+			<form>
+				<button type="submit" style="margin-bottom: 32px;">Create New Task</button>
+				<h1>Active Tasks</h1>
+				<table id="active-tasks" class="flat-table">
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Time Spent</th>
+						<th>Start</th>
+						<th>Complete</th>
+						<th>Remove</th>
+					</tr>
+					{% for row in range(active_tasks['id']|count) %}
+						<tr>
+							<td><a id="{{ active_tasks['id'][row] }}" href="{{ url_for('core.tasks', project_id=active_tasks['id'][row]) }}">{{ active_tasks['name'][row] }}</a></td>
+							<td>{{ active_tasks['description'][row] }}</td>
+							<td>{{ active_tasks['time_spent'][row] }}h</td>
+							<td><button id="start-timer" type="button">►</button></td>
+							<td><button id="complete-task" type="button">✔</button></td>
+							<td><button id="remove-task" type="button">✘</button></td>
+						</tr>
+					{% endfor %}
+				</table>
+
+				<h1>Completed Tasks</h1>
+				<table id="completed-tasks" class="flat-table">
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Time Spent</th>
+						<th>Make Active</th>
+						<th>Remove</th>
+					</tr>
+					{% for row in range(completed_tasks['id']|count) %}
+						<tr>
+							<td><a id="{{ completed_tasks['id'][row] }}" href="{{ url_for('core.tasks', project_id=completed_tasks['id'][row]) }}">{{ completed_tasks['name'][row] }}</a></td>
+							<td>{{ completed_tasks['description'][row] }}</td>
+							<td>{{ completed_tasks['time_spent'][row] }}h</td>
+							<td><button id="uncomplete-task" type="button">☐</button></td>
+							<td><button id="remove-task" type="button">✘</button></td>
+						</tr>
+						</tr>
+					{% endfor %}
+				</table>
+			</form>
 		</div>
-		<div class="status-radio" id="myStatus">
-			<p>Current Status<br><input type="text" id="status" name="status" value="{{request.form.status}}"/></p>			
-		</div></h5>
-	</body>
+	</div>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+        $(function() {
+            $('#active-tasks, #completed-tasks').on('click', '#remove-task', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_task', {
+                    id: $(this).closest('a').attr('id')
+                }, function(data) {
+					if (data.result == true) {
+                    	$(that).closest('tr').remove();
+					}
+					else {
+						alert('Failed to remove task.')
+					}
+                });
+                return false;
+            });
+
+			$(document).on('click', '#complete-task', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/complete_task', {
+                    id: $(this).closest('a').attr('id')
+                }, function(data) {
+					if (data.result == true) {
+                    	var tr = $(that).closest('tr').remove().clone();
+						tr.find('td:nth-child(4) button').text('☐').attr('id', 'uncomplete-task');
+						tr.find('td:nth-child(5)').remove();
+						$('#completed-tasks tbody').append(tr);
+					}
+					else {
+						alert('Failed to complete task.')
+					}
+                });
+                return false;
+            });
+
+			$(document).on('click', '#uncomplete-task', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/uncomplete_task', {
+                    id: $(this).closest('a').attr('id')
+                }, function(data) {
+					if (data.result == true) {
+                    	var tr = $(that).closest('tr').remove().clone();
+						tr.find('td:nth-child(4) button').text('►').attr('id', 'start-timer');
+						tr.find('td:nth-child(5)').remove();
+						tr.append('<td><button id="complete-task" type="button">✔</button></td>')
+						tr.append('<td><button id="remove-task" type="button">✘</button></td>')
+						$('#active-tasks tbody').append(tr);
+					}
+					else {
+						alert('Failed to complete task.')
+					}
+                });
+                return false;
+            });
+        });
+
+    </script>
+</body>
 </html>
