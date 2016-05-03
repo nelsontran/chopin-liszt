@@ -1,7 +1,9 @@
 .register-page,
+.project-page,
+.landing-page,
 .login-page {
     width: 940px;
-    padding: 8% 0 0;
+    padding: 4% 0 0;
     margin: auto;
 }
 
@@ -191,6 +193,38 @@ nav li a:hover {
 
 .container .info span .fa {
     color: #EF3B3A;
+}
+
+.landing-page img {
+    width: auto;
+    height: 64px;
+}
+
+.landing-page {
+    text-align: center;
+}
+
+.landing-page #logo {
+    background: #f7b1cf;
+    padding: 16px;
+}
+
+.landing-page #info {
+    font-size: 75%;
+    margin-bottom: 32px;
+}
+
+.landing-page #summary, #development {
+    padding: 8px;
+    margin: 64px, 0px, 0px, 0px;
+    font-size: 100%;
+    background: #FFFFFF;
+    text-align: left;
+}
+
+.landing-page h3 {
+    padding: 0px;
+    margin: 0px;
 }
 
 body {
