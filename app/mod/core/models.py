@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, text
+from sqlalchemy import Column, update, DateTime, Enum, ForeignKey, Integer, String, text
 from sqlalchemy.orm import relationship
 from app.mod.auth.models import User
 from app.database import Base, db_session, engine
-import enum
 
 class Project(Base):
     __tablename__ = "project"
@@ -41,9 +40,6 @@ class Project(Base):
         return projects
 
     def remove_project(id):
-        print("remove_project called: " + str(id))
-        #sql = text('delete from project where project_id="'+ str(id) + '"')
-        #engine.execute(sql)
         db_session.query(Project).filter(Project.project_id == id)\
                           .delete(synchronize_session='evaluate')
         db_session.commit()
@@ -92,8 +88,51 @@ class Task(Base):
     end_time = Column(DateTime)
     tags = relationship("Tag", backref="task")
 
+    def __init__(self, description=None, status=None, start_time=None, end_time=None):
+        self.description = description
+        self.status = status
+
+        if start_time is not None:
+            self.start_time = datetime.strptime(start_time, '%Y-%m-%dT%H:%M')
+
+        if end_time is not None:
+            self.end_time = datetime.strptime(end_time, '%Y-%m-%dT%H:%M')
+
+    def get(id):
+        return Task.query.get(int(id))
+
+    def get_id(self):
+        return self.task_id
+
+    def remove_task(id):
+        db_session.query(Task).filter(Task.task_id == id)\
+                          .delete(synchronize_session='evaluate')
+        db_session.commit()
+
+    def change_satus(id):
+        print("Status: " + self.status)
+        if self.status == "active":
+            db_session.update(Task).where(Task.task_id==id).\
+                        values(status='Open')
+        else:
+            db_session.update(Task).where(task_id==id).\
+                        values(status='Closed')
+
+    def __repr__(self):
+        return "<Task %r>" % (self.task_id)
+
 class Tag(Base):
     __tablename__ = "tag"
     tag_id = Column(Integer, primary_key=True)
     task_id = Column(Integer, ForeignKey("task.task_id"), unique=True, nullable=False)
-    task_name = Column(String(32))
+    tag_name = Column(String(32))
+
+    def __init__(self, task_id=None, tag_name=None):
+        self.task_id = task_id
+        self.tag_name = tag_name
+
+    def get_id(self):
+        return self.tag_id
+
+    def __repr__(self):
+        return "<Tag %r>" % (self.tag_id)
