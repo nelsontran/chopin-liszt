@@ -3,7 +3,7 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from flask.ext.login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
-from app.mod.core.models import Project, ProjectPermission
+from app.mod.core.models import Project, ProjectPermission, Task, Tag
 from app.mod.auth.views import User
 from app.database import db_session
 
@@ -89,16 +89,22 @@ def create_project():
 @core.route("/projects/<int:project_id>/create", methods=["GET", "POST"])
 @login_required
 def create_task(project_id):
-    if request.method == "POST":
-        _name = request.form["name"]
-        _description = request.form["description"]
-        _start_time = request.form["start_time"]
-        _end_time = request.form["end_time"]
+    _name = request.form["name"]
+    _description = request.form["description"]
+    _tl = request.form ["tags"]
+    _start_time = request.form["star_time"]
+    _end_time = request.form["end_time"]
 
-        print(_name)
-        print(_description)
-        print(_start_time)
-        print(_end_time)
+    task = Task(description=_description, name=_name, start_time=start_time, end_time=end_time)
+    db_session.add(task)
+    db_session.commit()
+
+    _tags_list = [x.strip() for x in _tl.split(",")]
+
+    for t in _tags_list:
+        tag = Tag(task_id=task.task_id, task_name=t)
+        db_session.add(tag)
+        db_session.commit()
 
     return render_template("create_task.html", project_id=project_id)
 
@@ -106,10 +112,13 @@ def create_task(project_id):
 def remove_project():
     project_id = request.args.get('id', 0, type=int)
     Project.remove_project(project_id)
+
     return jsonify(result=True)
 
 @core.route("/remove_task")
 def remove_task():
+    task_id = request.args.get('id', 0, type=int)
+    Task.remove_project(task_id)
     return jsonify(result=True)
 
 @core.route("/complete_task")

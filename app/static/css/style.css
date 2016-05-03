@@ -1,7 +1,11 @@
+.login-page,
 .register-page,
-.project-page,
 .landing-page,
-.login-page {
+.project-page,
+.tasks-page,
+.timeentry-page,
+.create-task-page,
+.create-project-page {
     width: 940px;
     padding: 4% 0 0;
     margin: auto;
