@@ -28,7 +28,7 @@
 
 	<div class="login-page">
 		<div class="form">
-			<form action="{{ url_for('core.create_task', project_id=project_id) }}">
+			<form id="create-task" action="{{ url_for('core.create_task', project_id=project_id) }}">
 				<button type="submit" style="margin-bottom: 32px;">Create New Task</button>
 				<h1>Active Tasks</h1>
 				<table id="active-tasks" class="flat-table">
@@ -74,9 +74,27 @@
 				</table>
 			</form>
 
-			<form>
-				<button type="button" style="margin-bottom: 32px;">Stop</button>
-				<button type="button" style="margin-bottom: 32px;">Stop</button>
+			<form id="timer">
+				<h1>Date</h1>
+				<input type="date" name="date">
+
+				<h1>Start Time</h1>
+				<input type="time" name="start-time">
+
+				<h1>End Time</h1>
+				<input type="time" name="end-time">
+
+				<div style="float: left; width: 45%">
+				<button id="timer-submit" type="button" style="margin-bottom: 32px;">Submit</button>
+				</div>
+				<div style="float: right; width: 45%">
+				<button id="timer-cancel" type="button" style="margin-bottom: 32px;">Cancel</button>
+				</div>
+
+				<br />
+				<br />
+				<br />
+
 			</form>
 		</div>
 	</div>
@@ -84,15 +102,31 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 
 	<script type="text/javascript">
-        $('#start-timer').click(function() {
-            $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-        });
-    </script>
-
-	<script type="text/javascript">
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
         $(function() {
+			$(document).on('click', '#start-timer', function() {
+				$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+				return false;
+			});
+
+			$(document).on('click', '#timer-cancel', function() {
+				$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+				return false;
+			});
+
+			$(document).on('click', '#timer-submit', function() {
+				$.getJSON($SCRIPT_ROOT + '/record_time_entry', {
+					project_id: {{ project_id }},
+					date: $('#date').val(),
+					start_time: $('#start-time').val(),
+					end_time: $('#end-time').val()
+				}, function(data) {
+					$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+				});
+				return false;
+			});
+
             $('#active-tasks, #completed-tasks').on('click', '#remove-task', function() {
                 that = this;
                 $.getJSON($SCRIPT_ROOT + '/remove_task', {

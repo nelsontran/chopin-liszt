@@ -154,6 +154,10 @@ nav li a:hover {
     display: none;
 }
 
+.form #timer {
+    display: none;
+}
+
 .container {
     position: relative;
     z-index: 1;

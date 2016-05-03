@@ -135,3 +135,17 @@ def get_collaborator():
 def remove_collaborator():
     email = request.args.get('email', 0, type=str)
     return jsonify(result=True)
+
+@core.route("/record_time_entry")
+def record_time_entry():
+    project_id = request.args.get('project_id', 0, type=int)
+    date = request.args.get('date', 0, type=str)
+    start_time = request.args.get('start_time', 0, type=str)
+    end_time = request.args.get('end_time', 0, type=str)
+
+    print(project_id)
+    print(date)
+    print(start_time)
+    print(end_time)
+
+    return jsonify(result=True)
