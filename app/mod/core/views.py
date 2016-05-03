@@ -88,13 +88,12 @@ def create_project():
 @core.route("/projects/<int:project_id>/create", methods=["GET", "POST"])
 @login_required
 def create_task(project_id):
-    _name = request.form["name"]
     _description = request.form["description"]
     _tl = request.form ["tags"]
     _start_time = request.form["star_time"]
     _end_time = request.form["end_time"]
 
-    task = Task(description=_description, name=_name, start_time=start_time, end_time=end_time)
+    task = Task(description=_description, start_time=start_time, end_time=end_time)
     db_session.add(task)
     db_session.commit()
 
