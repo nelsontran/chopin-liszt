@@ -41,7 +41,7 @@
 					{% for row in range(active_tasks['id']|count) %}
 						<tr>
 							<td><a id="{{ active_tasks['id'][row] }}" href="{{ url_for('core.time_entries', project_id=project_id, task_id=active_tasks['id'][row], ) }}">{{ active_tasks['description'][row] }}</a></td>
-							<td>{{ active_tasks['time_spent'][row] }}h</td>
+							<td>{{ active_tasks['time_spent'][row] }}</td>
 							<td><button id="complete-task" type="button">✔</button></td>
 							<td><button id="remove-task" type="button">✘</button></td>
 						</tr>

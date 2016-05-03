@@ -3,7 +3,7 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from flask.ext.login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
-from app.mod.core.models import Project, ProjectPermission, Task, Tag
+from app.mod.core.models import Project, ProjectPermission, Task, Tag, TimeEntry
 from app.mod.auth.views import User
 from app.database import db_session
 
@@ -45,14 +45,32 @@ def tasks(project_id):
         active_tasks["description"].append(row[1])
 
         # get time entries for task and calculate time spent
-        active_tasks["time_spent"].append(0)
+        results = TimeEntry.get_times(row[0])
+        time_spent = None
+        for row2 in results:
+            delta_time = row2[1] - row2[0]
+            if time_spent is None:
+                time_spent = delta_time
+            else:
+                time_spent = time_spent + delta_time
+
+        active_tasks["time_spent"].append(time_spent)
 
     for row in completed_tasks_results:
         completed_tasks["id"].append(row[0])
         completed_tasks["description"].append(row[1])
-        completed_tasks["time_spent"].append(0)
 
         # get time entries for task and calculate time spent
+        results = TimeEntry.get_times(row[0])
+        time_spent = None
+        for row2 in results:
+            delta_time = row2[1] - row2[0]
+            if time_spent is None:
+                time_spent = delta_time
+            else:
+                time_spent = time_spent + delta_time
+
+        completed_tasks["time_spent"].append(time_spent)
 
     return render_template("tasks.html", project_id=project_id, active_tasks=active_tasks, completed_tasks=completed_tasks)
 
@@ -128,7 +146,29 @@ def create_task(project_id):
 @core.route("/projects/<int:project_id>/log/<int:task_id>")
 @login_required
 def time_entries(project_id, task_id):
-    return render_template("timeentry.html", project_id=project_id, task_id=task_id)
+    time_entries_results = TimeEntry.get_entries(task_id)
+
+    time_entry_id = []
+    name = []
+    start_time = []
+    end_time = []
+
+    for row in time_entries_results:
+        time_entry_id.append(row[0])
+        name.append(User.get(row[1]).get_full_name())
+        start_time.append(row[2])
+        end_time.append(row[3])
+
+    entries = {
+        "id": time_entry_id,
+        "name": name,
+        "start_time": start_time,
+        "end_time": end_time
+    }
+
+    print(entries)
+
+    return render_template("timeentry.html", project_id=project_id, task_id=task_id, entries=entries)
 
 @core.route("/remove_project")
 def remove_project():
@@ -148,6 +188,12 @@ def remove_project():
 def remove_task():
     task_id = request.args.get('id', 0, type=int)
     Task.remove_task(task_id)
+    return jsonify(result=True)
+
+@core.route("/remove_entry")
+def remove_entry():
+    entry_id = request.args.get('id', 0, type=int)
+    TimeEntry.remove_entry(entry_id)
     return jsonify(result=True)
 
 @core.route("/complete_task")
@@ -180,14 +226,14 @@ def remove_collaborator():
 
 @core.route("/record_time_entry")
 def record_time_entry():
-    task_id = request.args.get('task_id', 0, type=int)
-    date = request.args.get('date', 0, type=str)
-    start_time = request.args.get('start_time', 0, type=str)
-    end_time = request.args.get('end_time', 0, type=str)
+    _task_id = request.args.get('task_id', 0, type=int)
+    _date = request.args.get('date', 0, type=str)
+    _start_time = request.args.get('start_time', 0, type=str)
+    _end_time = request.args.get('end_time', 0, type=str)
 
-    print(project_id)
-    print(date)
-    print(start_time)
-    print(end_time)
+    _user_id = current_user.get_id()
+    time_entry = TimeEntry(task_id=_task_id, user_id=_user_id, date=_date, start_time=_start_time, end_time=_end_time)
+    db_session.add(time_entry)
+    db_session.commit()
 
     return jsonify(result=True)

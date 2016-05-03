@@ -32,19 +32,21 @@
                 <button id="start-timer" type="button">Record Time Entry</button>
 
                 <h1>Current Time Entries</h1>
-                <table id="active-tasks" class="flat-table">
+                <table id="time-entries" class="flat-table">
                     <tr>
                         <th>User</th>
                         <th>Start time</th>
                         <th>End time</th>
                         <th>Remove</th>
                     </tr>
-                    <tr>
-                        <td>[user]</a></td>
-                        <td>[start time]</td>
-                        <td>[end time]</td>
-                        <td><button id="remove-timeentry" type="button">✘</button></td>
-                    </tr>
+                    {% for row in range(entries['id']|count) %}
+                        <tr>
+                            <td><a id="{{ entries['id'][row] }}">{{ entries['name'][row] }}</a></td>
+                            <td>{{ entries['start_time'][row] }}</td>
+                            <td>{{ entries['end_time'][row] }}</td>
+                            <td><button id="remove-entry" type="button">✘</button></td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </form>
 
@@ -101,6 +103,21 @@
 				});
 				return false;
 			});
+
+            $('#time-entries').on('click', '#remove-entry', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_entry', {
+                    id: $(this).parent().parent().find('a').attr('id')
+                }, function(data) {
+					if (data.result == true) {
+                    	$(that).closest('tr').remove();
+					}
+					else {
+						alert('Failed to remove entry.')
+					}
+                });
+                return false;
+            });
         });
     </script>
 </body>

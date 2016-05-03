@@ -89,9 +89,9 @@ class ProjectPermission(Base):
 
 class TimeEntry(Base):
     __tablename__ = "time_entry"
-    task_entry_id = Column(Integer, primary_key=True)
-    task_id = Column(Integer, ForeignKey("task.task_id"), unique=True)
-    user_id = Column(Integer, ForeignKey("user.user_id"), unique=True)
+    time_entry_id = Column(Integer, primary_key=True)
+    task_id = Column(Integer, ForeignKey("task.task_id"))
+    user_id = Column(Integer, ForeignKey("user.user_id"))
     start_time = Column(DateTime)
     end_time = Column(DateTime)
 
@@ -103,7 +103,7 @@ class TimeEntry(Base):
         self.start_time = datetime.strptime(stime, '%Y-%m-%d %H:%M')
 
         etime = date + ' ' + end_time
-        self.end_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
+        self.end_time = datetime.strptime(etime, '%Y-%m-%d %H:%M')
 
     def get(id):
         return TimeEntry.query.get(int(id))
@@ -114,7 +114,18 @@ class TimeEntry(Base):
     def get_uid(self):
         return self.user_id
 
-    def remove_entry (id):
+    def get_entries(id):
+        sql = text('select time_entry_id, user_id, start_time, end_time \
+                    from time_entry where time_entry.task_id ="' + str(id)+ '"')
+
+        return engine.execute(sql)
+
+    def get_times(task_id):
+        sql = text('select start_time, end_time from time_entry where time_entry.task_id="' + str(task_id) + '"')
+        result = engine.execute(sql)
+        return result
+
+    def remove_entry(id):
         db_session.query(TimeEntry).filter(TimeEntry.time_entry_id == id)\
                           .delete(synchronize_session='evaluate')
         db_session.commit()
