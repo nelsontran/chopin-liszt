@@ -26,10 +26,9 @@
         </div>
     </nav>
 
-    <div class="taskentry-page">
+    <div class="timeentry-page">
         <div class="form">
-            <form action="{{ url_for('core.create_task', project_id=project_id) }}">
-                <button type="submit" style="margin-bottom: 32px;">Add time entry</button>
+            <form>
                 <h1>Current time entries</h1>
                 <table id="active-tasks" class="flat-table">
                     <tr>
@@ -38,16 +37,37 @@
                         <th>End time</th>
                         <th>Remove</th>
                     </tr>
-                    {% for row in range(active_tasks['id']|count) %}
                         <tr>
                             <td>[user]</a></td>
                             <td>[start time]</td>
                             <td>[end time]</td>
                             <td><button id="remove-timeentry" type="button">✘</button></td>
                         </tr>
-                    {% endfor %}
                 </table>
             </form>
+
+            <form id="timer">
+				<h1>Date</h1>
+				<input type="date" name="date" id="date">
+
+				<h1>Start Time</h1>
+				<input type="time" name="start-time" id="start-time">
+
+				<h1>End Time</h1>
+				<input type="time" name="end-time" id="end-time">
+
+				<div style="float: left; width: 45%">
+				<button id="timer-submit" type="button" style="margin-bottom: 32px;">Submit</button>
+				</div>
+				<div style="float: right; width: 45%">
+				<button id="timer-cancel" type="button" style="margin-bottom: 32px;">Cancel</button>
+				</div>
+
+				<br />
+				<br />
+				<br />
+
+			</form>
         </div>
     </div>
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-from sqlalchemy import Column, update, DateTime, Enum, ForeignKey, Integer, String, text
+from sqlalchemy import Column, update, DateTime, Enum, ForeignKey, Integer, String, text, update
 from sqlalchemy.orm import relationship
 from app.mod.auth.models import User
 from app.database import Base, db_session, engine
+from datetime import datetime
 
 class Project(Base):
     __tablename__ = "project"
@@ -81,22 +82,29 @@ class TimeEntry(Base):
 class Task(Base):
     __tablename__ = "task"
     task_id = Column(Integer, primary_key=True)
-    project_id = Column(Integer, ForeignKey("project.project_id"), unique=True, nullable=False)
+    project_id = Column(Integer, ForeignKey("project.project_id"), nullable=False)
     status = Column (Enum("Open","Closed", name='tasks_status'))
     description = Column(String(150), nullable=False)
     start_time = Column(DateTime)
     end_time = Column(DateTime)
     tags = relationship("Tag", backref="task")
 
-    def __init__(self, description=None, status=None, start_time=None, end_time=None):
+    def __init__(self, project_id=None, description=None, status=None, start_time=None, end_time=None):
         self.description = description
-        self.status = status
+        self.project_id = project_id
+
+        if self.status is None:
+            self.status = "Open"
+        else:
+            self.status = status
 
         if start_time is not None:
-            self.start_time = datetime.strptime(start_time, '%Y-%m-%dT%H:%M')
+            self.start_time = datetime.strptime(start_time[:15], '%Y-%m-%dT%H:%M')
 
         if end_time is not None:
-            self.end_time = datetime.strptime(end_time, '%Y-%m-%dT%H:%M')
+            self.end_time = datetime.strptime(end_time[:15], '%Y-%m-%dT%H:%M')
+
+        print("Status: " + self.status)
 
     def get(id):
         return Task.query.get(int(id))
@@ -104,19 +112,39 @@ class Task(Base):
     def get_id(self):
         return self.task_id
 
+    def get_status(self):
+        return self.status
+
+    def get_active_tasks(project_id):
+        sql = text('select task_id, description from task where task.project_id=' + str(project_id) + ' and task.status="Open"')
+        result = engine.execute(sql)
+        return result
+
+    def get_completed_tasks(project_id):
+        sql = text('select task_id, description from task where task.project_id=' + str(project_id) + ' and task.status="Closed"')
+        result = engine.execute(sql)
+        return result
+
     def remove_task(id):
-        db_session.query(Task).filter(Task.task_id == id)\
+        db_session.query(Task).filter(Task.task_id == id) \
                           .delete(synchronize_session='evaluate')
         db_session.commit()
 
-    def change_satus(id):
-        print("Status: " + self.status)
-        if self.status == "active":
-            db_session.update(Task).where(Task.task_id==id).\
-                        values(status='Open')
+    def change_status(id):
+        sql = text ('select t.status from task t \
+                     where t.task_id="' + str(id) + '"')
+
+        result = engine.execute(sql)
+        for i in result:
+            print(i[0])
+            status = i[0]
+
+        if status == "Open":
+            sql = text('update task set status="Closed" where task.task_id="' + str(id) + '"')
+            result = engine.execute(sql)
         else:
-            db_session.update(Task).where(task_id==id).\
-                        values(status='Closed')
+            sql = text('update task set status="Open" where task.task_id="' + str(id) + '"')
+            result = engine.execute(sql)
 
     def __repr__(self):
         return "<Task %r>" % (self.task_id)
@@ -124,7 +152,7 @@ class Task(Base):
 class Tag(Base):
     __tablename__ = "tag"
     tag_id = Column(Integer, primary_key=True)
-    task_id = Column(Integer, ForeignKey("task.task_id"), unique=True, nullable=False)
+    task_id = Column(Integer, ForeignKey("task.task_id"), nullable=False)
     tag_name = Column(String(32))
 
     def __init__(self, task_id=None, tag_name=None):

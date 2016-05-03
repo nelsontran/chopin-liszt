@@ -24,24 +24,37 @@ def projects():
 @core.route("/projects/<int:project_id>", methods=["GET", "POST"])
 @login_required
 def tasks(project_id):
-    active_tasks = {}
-    completed_tasks = {}
 
-    dummy_data = {
-        "id": [1, 2, 3, 4, 5],
-        "name": ["Task #1", "Task #2", "Task #3", "Task #4", "Task #5"],
-        "description": ["Hello World", "Practice Etudes", "Lorem Ipsum", "Practice Tchaikovsky", "Practice Beethoven"],
-        "time_spent": [12, 14, 51, 64, 74]
+    active_tasks_results = Task.get_active_tasks(project_id)
+    completed_tasks_results = Task.get_completed_tasks(project_id)
+
+    active_tasks = {
+        "id": [],
+        "description": [],
+        "time_spent": []
     }
 
-    dummy_data2 = {
-        "id": [1],
-        "name": ["Task #0"],
-        "description": ["Drink Water"],
-        "time_spent": [154]
+    completed_tasks = {
+        "id": [],
+        "description": [],
+        "time_spent": []
     }
 
-    return render_template("tasks.html", project_id=project_id, active_tasks=dummy_data, completed_tasks=dummy_data2)
+    for row in active_tasks_results:
+        active_tasks["id"].append(row[0])
+        active_tasks["description"].append(row[1])
+
+        # get time entries for task and calculate time spent
+        active_tasks["time_spent"].append(0)
+
+    for row in completed_tasks_results:
+        completed_tasks["id"].append(row[0])
+        completed_tasks["description"].append(row[1])
+        completed_tasks["time_spent"].append(0)
+
+        # get time entries for task and calculate time spent
+
+    return render_template("tasks.html", project_id=project_id, active_tasks=active_tasks, completed_tasks=completed_tasks)
 
 @core.route("/projects/create", methods=["GET", "POST"])
 @login_required
@@ -89,24 +102,32 @@ def create_project():
 @core.route("/projects/<int:project_id>/create", methods=["GET", "POST"])
 @login_required
 def create_task(project_id):
-    _name = request.form["name"]
-    _description = request.form["description"]
-    _tl = request.form ["tags"]
-    _start_time = request.form["star_time"]
-    _end_time = request.form["end_time"]
+    if request.method == "POST":
+        _description = request.form["description"]
+        _tl = request.form ["tags"]
+        _start_time = request.form["start_time"]
+        _end_time = request.form["end_time"]
 
-    task = Task(description=_description, name=_name, start_time=start_time, end_time=end_time)
-    db_session.add(task)
-    db_session.commit()
+        print(project_id)
 
-    _tags_list = [x.strip() for x in _tl.split(",")]
+        task = Task(project_id=project_id, description=_description, start_time=_start_time, end_time=_end_time)
 
-    for t in _tags_list:
-        tag = Tag(task_id=task.task_id, task_name=t)
-        db_session.add(tag)
+        db_session.add(task)
         db_session.commit()
 
+        _tags_list = [x.strip() for x in _tl.split(",")]
+
+        for t in _tags_list:
+            tag = Tag(task_id=task.task_id, tag_name=t)
+            db_session.add(tag)
+            db_session.commit()
+
     return render_template("create_task.html", project_id=project_id)
+
+@core.route("/projects/<int:project_id>/log/<int:task_id>")
+@login_required
+def time_entries(project_id, task_id):
+    return render_template("timeentry.html")
 
 @core.route("/remove_project")
 def remove_project():
@@ -118,15 +139,19 @@ def remove_project():
 @core.route("/remove_task")
 def remove_task():
     task_id = request.args.get('id', 0, type=int)
-    Task.remove_project(task_id)
+    Task.remove_task(task_id)
     return jsonify(result=True)
 
 @core.route("/complete_task")
 def complete_task():
+    task_id = request.args.get('id', 0, type=int)
+    Task.change_status(id)
     return jsonify(result=True)
 
 @core.route("/uncomplete_task")
 def uncomplete_task():
+    task_id = request.args.get('id', 0, type=int)
+    Task.change_status(id)
     return jsonify(result=True)
 
 @core.route("/get_collaborator")
@@ -147,7 +172,7 @@ def remove_collaborator():
 
 @core.route("/record_time_entry")
 def record_time_entry():
-    project_id = request.args.get('project_id', 0, type=int)
+    task_id = request.args.get('task_id', 0, type=int)
     date = request.args.get('date', 0, type=str)
     start_time = request.args.get('start_time', 0, type=str)
     end_time = request.args.get('end_time', 0, type=str)
