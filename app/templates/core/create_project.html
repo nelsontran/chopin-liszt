@@ -1,36 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<title>New Project</title>
+    <title>Chopin Liszt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
 </head>
-	<body>
-		<ul>
-  			<li><a class="active" href="#home">Home</a></li>
-  			<li class="projects-menu">
-    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
-    			<div class="project-content" id="myProject">
-      			<a href="#">New Project</a>
-      			<a href="CreateTask.html">Create Task</a>
-      			<a href="Task.html">View Task</a>
-    			</div>
-  			</li>
-			<li><a href="#about">About</a></li>  			
-		</ul>
-		<h5><div>
-			<br>Project ID<br><input type="text" name="project_id" placeholder="Project ID" value="{{request.form.project_id}}" /><br>
-			<br>Project Name<br><input type="text" name="name" placeholder="Project Name" value="{{request.form.name}}" /><br>
-			<br>Collaborators<br><input type="text" name="collaborators" placeholder="Email comma separated" value="{{request.form.collaborators}}" /><br>
-		</div></h5>
-		<div>
-			<h5>Status</h5>
-			<input type="radio" name="status" id="open" value="{{request.form.status}}" checked />
-			<label for="open"> Open </label><br>
-			<br><input type="radio" name="status" id="close" value="{{request.form.status}}" />	
-			<label for="close"> Close </label><br>
+
+<body>
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+	<div class="login-page">
+		<div class="form">
+			<form class="project-form" action="{{ url_for('core.create_project') }}" method="post">
+				<input type="text" name="name" placeholder="Project Name" value="{{ request.form.name }}" />
+				<input type="text" name="collaborator" placeholder="Collaborator Email Address">
+					<button type="button" id="add-collaborator">Add Collaborator</button>
+				</input>
+				<br />
+				<table id="collaborators" class="flat-table">
+					<tr>
+						<th>Collaborator</th>
+						<th>Email</th>
+						<th>Permissions</th>
+						<th>Remove</th>
+					</tr>
+				</table>
+				<button type="submit">Create Project</button>
+			</form>
 		</div>
-		<div>
-  			<br><input type="submit" id="submit-btn" value="Submit" /><br>
-  		</div>
-	</body>
+	</div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+        $(function() {
+            $('button#add-collaborator').on('click', function() {
+                $.getJSON($SCRIPT_ROOT + '/get_collaborator', {
+                    email: $('input[name="collaborator"]').val()
+                }, function(data) {
+                    if (data.result == true) {
+                        $('#collaborators tbody').append(' \
+                            <tr> \
+                                <td>' + data.fullname + '</td> \
+                                <td><input name="emails[]" type="text" value="' + data.email + '" readonly /></td> \
+                                <td> \
+                                    <select name="permissions[]"> \
+                                        <option>User</option> \
+                                        <option>Admin</option> \
+                                    </select> \
+                                </td> \
+                                <td> \
+                                    <button id="remove-collaborator" type="button">X</button> \
+                                </td> \
+                            </tr> \
+                        ')
+                    }
+                    else {
+                        alert('There does not exist a user with that email address.');
+                    }
+                });
+                return false;
+            });
+
+            $(document).on('click', '#remove-collaborator', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_collaborator', {
+                    email: $(this).closest('input').val()
+                }, function(data) {
+                    $(that).closest('tr').remove();
+                });
+                return false;
+            });
+        });
+
+    </script>
+</body>
 </html>

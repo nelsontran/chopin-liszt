@@ -3,7 +3,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 from flask.ext.login import UserMixin
-from app.database import Base
+from app.database import Base, db_session
 
 class User(Base, UserMixin):
     __tablename__ = "user"
@@ -30,5 +30,16 @@ class User(Base, UserMixin):
     def get_id(self):
         return self.user_id
 
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+
+    def get_user(email):
+        user = db_session.query(User) \
+                         .select_from(User) \
+                         .filter(User.email == email) \
+                         .first()
+
+        return user
+
     def __repr__(self):
-        return "<User %r>" % (self.name)
+        return "<User %r>" % (self.username)

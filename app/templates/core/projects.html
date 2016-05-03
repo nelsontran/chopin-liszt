@@ -1,63 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <title>Chopin Liszt</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
+<meta charset="utf-8" />
+<title>New Project</title>
 </head>
-
-<body>
-    <nav>
-        <div class="container-fluid">
-            <ul>
-                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
-                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
-                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
-
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-	<div class="login-page">
-		<div class="form">
-			<form class="project-form" action="{{ url_for('core.create_project') }}" method="post">
-				<input type="text" name="name" placeholder="Project Name" value="{{ request.form.name }}" />
-				<input type="text" name="collaborator" placeholder="Collaborator Email Address">
-					<button type="button">Add Collaborator</button>
-				</input>
-				<br />
-				<table class="flat-table">
-					<tr>
-						<th>Collaborator</th>
-						<th>Email</th>
-						<th>Permissions</th>
-						<th>Remove</th>
-					</tr>
-					<tr>
-						<td>Nelson Tran</td>
-						<td>nelson@nelsontran.com</td>
-						<td>
-							<select>
-								<option>User</option>
-								<option>Admin</option>
-							</select>
-						</td>
-						<td>
-							<button type="button">X</button>
-						</td>
-					</tr>
-				</table>
-				<button type="button">Create Project</button>
-			</form>
+	<body>
+		<ul>
+  			<li><a class="active" href="#home">Home</a></li>
+  			<li class="projects-menu">
+    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
+    			<div class="project-content" id="myProject">
+      			<a href="#">New Project</a>
+      			<a href="CreateTask.html">Create Task</a>
+      			<a href="Task.html">View Task</a>
+    			</div>
+  			</li>
+			<li><a href="#about">About</a></li>  			
+		</ul>
+		<h5><div>
+			<br>Project ID<br><input type="text" name="project_id" placeholder="Project ID" value="{{request.form.project_id}}" /><br>
+			<br>Project Name<br><input type="text" name="name" placeholder="Project Name" value="{{request.form.name}}" /><br>
+			<br>Collaborators<br><input type="text" name="collaborators" placeholder="Email comma separated" value="{{request.form.collaborators}}" /><br>
+		</div></h5>
+		<div>
+			<h5>Status</h5>
+			<input type="radio" name="status" id="open" value="{{request.form.status}}" checked />
+			<label for="open"> Open </label><br>
+			<br><input type="radio" name="status" id="close" value="{{request.form.status}}" />	
+			<label for="close"> Close </label><br>
 		</div>
-	</div>
-</body>
+		<div>
+  			<br><input type="submit" id="submit-btn" value="Submit" /><br>
+  		</div>
+	</body>
 </html>
