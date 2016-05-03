@@ -92,11 +92,13 @@ def create_task(project_id):
     if request.method == "POST":
         _name = request.form["name"]
         _description = request.form["description"]
-        _datetime = request.form["datetime"]
+        _start_time = request.form["start_time"]
+        _end_time = request.form["end_time"]
 
         print(_name)
         print(_description)
-        print(_datetime)
+        print(_start_time)
+        print(_end_time)
 
     return render_template("create_task.html", project_id=project_id)
 

@@ -33,8 +33,11 @@
 				<input type="text" name="description" placeholder="Description" value="{{ request.form.description }}" />
 				<input type="text" name="tags" placeholder="Tags (comma separated list)" value=""{{ request.form.tags }}" />
 
+				<h1>Start Time</h1>
+				<input name="start_time" type="datetime-local" value="{{ request.form.start_time }}" />
+
 				<h1>Deadline</h1>
-				<input name="datetime" type="datetime-local" value="{{ request.form.datetime }}" />
+				<input name="end_time" type="datetime-local" value="{{ request.form.end_time }}" />
 				<button type="submit">Create Task</button>
 			</form>
 		</div>
