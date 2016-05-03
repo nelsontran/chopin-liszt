@@ -22,10 +22,11 @@ class Project(Base):
     def get_id(self):
         return self.project_id
 
-    def get_projects(user):
-        sql =  text('select distinct p.name, p.project_id\
-                     from project p, user u, project_permission pp \
-                     where pp.user_id=u.user_id')
+    def get_projects(user, group):
+        sql = text('select distinct p.name, p.project_id, pp.group ' + \
+                   'from project p, user u, project_permission pp ' + \
+                   'where p.project_id=pp.project_id and pp.user_id=' + \
+                   str(user.get_id()) + ' and pp.group="' + group + '"')
 
         result = engine.execute(sql)
         print ("result: ", result)

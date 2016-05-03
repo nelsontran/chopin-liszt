@@ -12,9 +12,10 @@ core = Blueprint("core", __name__, template_folder="../../templates/core")
 @core.route("/projects", methods=["GET"])
 @login_required
 def projects():
-    data = Project.get_projects(current_user)
+    admin_data = Project.get_projects(current_user, "admin")
+    user_data = Project.get_projects(current_user, "user")
 
-    return render_template("projects.html", data=data)
+    return render_template("projects.html", admin_data=admin_data, user_data=user_data)
 
 @core.route("/projects/<int:project_id>", methods=["GET", "POST"])
 @login_required
@@ -71,6 +72,7 @@ def create_task(project_id):
 
 @core.route("/remove_project")
 def remove_project():
+    
     return jsonify(result=True)
 
 @core.route("/get_collaborator")

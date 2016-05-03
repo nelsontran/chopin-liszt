@@ -31,28 +31,28 @@
 			<form action="{{ url_for('core.create_project') }}">
 				<button type="submit" style="margin-bottom: 32px;">Create New Project</button>
 				<h1>Your Projects</h1>
-				<table id="projects" class="flat-table">
+				<table id="owned-projects" class="flat-table">
 					<tr>
 						<th>Project</th>
 						<th>Remove</th>
 					</tr>
-					{% for row in range(data['id']|count) %}
+					{% for row in range(admin_data['id']|count) %}
 						<tr>
-							<td><a id="{{ data['id'][row] }}" href="{{ url_for('core.tasks', project_id=data['id'][row]) }}">{{ data['name'][row] }}</a></td>
+							<td><a id="{{ admin_data['id'][row] }}" href="{{ url_for('core.tasks', project_id=admin_data['id'][row]) }}">{{ admin_data['name'][row] }}</a></td>
 							<td><button id="remove-project" type="button">X</button></td>
 						</tr>
 					{% endfor %}
 				</table>
 				<br />
 				<h1>Projects Shared With You</h1>
-				<table id="projects" class="flat-table">
+				<table id="shared-projects" class="flat-table">
 					<tr>
 						<th>Project</th>
 						<th>Remove</th>
 					</tr>
-					{% for row in range(data['id']|count) %}
+					{% for row in range(user_data['id']|count) %}
 						<tr>
-							<td><a id="{{ data['id'][row] }}" href="{{ url_for('core.tasks', project_id=data['id'][row]) }}">{{ data['name'][row] }}</a></td>
+							<td><a id="{{ user_data['id'][row] }}" href="{{ url_for('core.tasks', project_id=user_data['id'][row]) }}">{{ user_data['name'][row] }}</a></td>
 							<td><button id="remove-project" type="button">X</button></td>
 						</tr>
 					{% endfor %}
@@ -66,7 +66,7 @@
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
         $(function() {
-            $('#projects').on('click', '#remove-project', function() {
+            $('#owned-projects, #shared-projects').on('click', '#remove-project', function() {
                 that = this;
                 $.getJSON($SCRIPT_ROOT + '/remove_project', {
                     id: $(this).closest('a').attr('id')
