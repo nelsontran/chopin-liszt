@@ -1,19 +1,113 @@
+.login-page,
 .register-page,
-.login-page {
-    width: 360px;
-    padding: 8% 0 0;
+.landing-page,
+.project-page,
+.tasks-page,
+.timeentry-page,
+.create-task-page,
+.create-project-page {
+    width: 940px;
+    padding: 4% 0 0;
     margin: auto;
+}
+
+nav img {
+    width: auto;
+    height: 32px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #405f32;
+    height: 64px;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+
+.flat-table {
+    table-layout:fixed;
+    background: #FFFFFF;
+    width: 100%;
+	margin-bottom: 20px;
+	border-collapse:collapse;
+	font-family: 'Oxygen';
+	border: none;
+            border-radius: 3px;
+           -webkit-border-radius: 3px;
+           -moz-border-radius: 3px;
+}
+
+.flat-table th, .flat-table td {
+	box-shadow: inset 0 -1px rgba(0,0,0,0.25),
+		inset 0 1px rgba(0,0,0,0.25);
+}
+
+.flat-table th {
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	padding: 1em;
+	color: #b3b3b3;
+	text-shadow: 0 0 1px rgba(0,0,0,0.1);
+	font-size: 1em;
+}
+
+.flat-table td {
+	color: #222222;
+	padding: 0.7em 1em 0.7em 1.15em;
+	text-shadow: 0 0 1px rgba(255,255,255,0.1);
+	font-size: 1em;
+}
+
+.flat-table tr {
+	-webkit-transition: background 0.3s, box-shadow 0.3s;
+	-moz-transition: background 0.3s, box-shadow 0.3s;
+	transition: background 0.3s, box-shadow 0.3s;
+}
+
+.flat-table tr:hover {
+	background: rgba(0,0,0,0.1);
+}
+
+.project-form br {
+  content: " ";
+  display: block;
+  margin: 15px;
 }
 
 .form {
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
-    max-width: 360px;
+    background: #fad5e5;
+    max-width: 940px;
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form h1 {
+    font-size: 24px;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 0px;
 }
 
 .form input {
@@ -32,7 +126,7 @@
     font-family: "Oxygen", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4CAF50;
+    background: #f7b1cf;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -46,7 +140,7 @@
 .form button:hover,
 .form button:active,
 .form button:focus {
-    background: #43A047;
+    background: #fad5e5;
 }
 
 .form .message {
@@ -61,6 +155,10 @@
 }
 
 .form .register-form {
+    display: none;
+}
+
+.form #timer {
     display: none;
 }
 
@@ -103,6 +201,38 @@
 
 .container .info span .fa {
     color: #EF3B3A;
+}
+
+.landing-page img {
+    width: auto;
+    height: 64px;
+}
+
+.landing-page {
+    text-align: center;
+}
+
+.landing-page #logo {
+    background: #f7b1cf;
+    padding: 16px;
+}
+
+.landing-page #info {
+    font-size: 75%;
+    margin-bottom: 32px;
+}
+
+.landing-page #summary, #development {
+    padding: 8px;
+    margin: 64px, 0px, 0px, 0px;
+    font-size: 100%;
+    background: #FFFFFF;
+    text-align: left;
+}
+
+.landing-page h3 {
+    padding: 0px;
+    margin: 0px;
 }
 
 body {

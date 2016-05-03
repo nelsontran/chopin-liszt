@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>LilyTask</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
+</head>
+
+<body>
+	<nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+	<div class="project-page">
+		<div class="form">
+			<form action="{{ url_for('core.create_project') }}">
+				<button type="submit" style="margin-bottom: 32px;">Create New Project</button>
+				<h1>Your Projects</h1>
+				<table id="owned-projects" class="flat-table">
+					<tr>
+						<th>Project</th>
+						<th>Remove</th>
+					</tr>
+					{% for row in range(admin_data['id']|count) %}
+						<tr>
+							<td><a id="{{ admin_data['id'][row] }}" href="{{ url_for('core.tasks', project_id=admin_data['id'][row]) }}">{{ admin_data['name'][row] }}</a></td>
+							<td><button id="remove-project" type="button">X</button></td>
+						</tr>
+					{% endfor %}
+				</table>
+				<br />
+				<h1>Projects Shared With You</h1>
+				<table id="shared-projects" class="flat-table">
+					<tr>
+						<th>Project</th>
+						<th>Remove</th>
+					</tr>
+					{% for row in range(user_data['id']|count) %}
+						<tr>
+							<td><a id="{{ user_data['id'][row] }}" href="{{ url_for('core.tasks', project_id=user_data['id'][row]) }}">{{ user_data['name'][row] }}</a></td>
+							<td><button id="remove-project" type="button">X</button></td>
+						</tr>
+					{% endfor %}
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+        $(function() {
+            $('#owned-projects, #shared-projects').on('click', '#remove-project', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_project', {
+                    id: $(this).parent().parent().find('a').attr('id')
+                }, function(data) {
+					if (data.result == true) {
+                    	$(that).closest('tr').remove();
+					}
+					else {
+						alert('Failed to remove project.')
+					}
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

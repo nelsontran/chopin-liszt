@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>LilyTask</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
+</head>
+
+<body>
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+	<div class="create-project-page">
+		<div class="form">
+			<form class="project-form" action="{{ url_for('core.create_project') }}" method="post">
+				<input type="text" name="name" placeholder="Project Name" value="{{ request.form.name }}" />
+				<input type="text" name="collaborator" placeholder="Collaborator Email Address">
+					<button type="button" id="add-collaborator">Add Collaborator</button>
+				</input>
+				<br />
+				<table id="collaborators" class="flat-table">
+					<tr>
+						<th>Collaborator</th>
+						<th>Email</th>
+						<th>Remove</th>
+					</tr>
+				</table>
+				<button type="submit">Create Project</button>
+			</form>
+		</div>
+	</div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+        $(function() {
+            $('button#add-collaborator').on('click', function() {
+                $.getJSON($SCRIPT_ROOT + '/get_collaborator', {
+                    email: $('input[name="collaborator"]').val()
+                }, function(data) {
+                    if (data.result == true) {
+                        $('#collaborators tbody').append(' \
+                            <tr> \
+                                <td>' + data.fullname + '</td> \
+                                <td><input name="emails[]" type="text" value="' + data.email + '" readonly /></td> \
+                                <td> \
+                                    <button id="remove-collaborator" type="button">X</button> \
+                                </td> \
+                            </tr> \
+                        ')
+                    }
+                    else {
+                        alert('There does not exist a user with that email address.');
+                    }
+                });
+                return false;
+            });
+
+            $(document).on('click', '#remove-collaborator', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_collaborator', {
+                    email: $(this).closest('input').val()
+                }, function(data) {
+                    $(that).closest('tr').remove();
+                });
+                return false;
+            });
+        });
+
+    </script>
+</body>
+</html>
