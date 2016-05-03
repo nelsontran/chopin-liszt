@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>LilyTask</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
+</head>
+
+<body>
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="taskentry-page">
+        <div class="form">
+            <form action="{{ url_for('core.create_task', project_id=project_id) }}">
+                <button type="submit" style="margin-bottom: 32px;">Add time entry</button>
+                <h1>Current time entries</h1>
+                <table id="active-tasks" class="flat-table">
+                    <tr>
+                        <th>User</th>
+                        <th>Start time</th>
+                        <th>End time</th>
+                        <th>Remove</th>
+                    </tr>
+                    {% for row in range(active_tasks['id']|count) %}
+                        <tr>
+                            <td>[user]</a></td>
+                            <td>[start time]</td>
+                            <td>[end time]</td>
+                            <td><button id="remove-timeentry" type="button">✘</button></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+</body>
+</html>
