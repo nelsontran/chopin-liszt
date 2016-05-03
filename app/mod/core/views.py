@@ -37,7 +37,7 @@ def tasks(project_id):
         "time_spent": [154]
     }
 
-    return render_template("tasks.html", active_tasks=dummy_data, completed_tasks=dummy_data2)
+    return render_template("tasks.html", project_id=project_id, active_tasks=dummy_data, completed_tasks=dummy_data2)
 
 @core.route("/projects/create", methods=["GET", "POST"])
 @login_required
@@ -82,10 +82,19 @@ def create_project():
 
     return render_template("create_project.html")
 
-@core.route("/projects/<int:project_id>/create")
+@core.route("/projects/<int:project_id>/create", methods=["GET", "POST"])
 @login_required
 def create_task(project_id):
-    return render_template("create_task.html")
+    if request.method == "POST":
+        _name = request.form["name"]
+        _description = request.form["description"]
+        _datetime = request.form["datetime"]
+
+        print(_name)
+        print(_description)
+        print(_datetime)
+
+    return render_template("create_task.html", project_id=project_id)
 
 @core.route("/remove_project")
 def remove_project():

@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<title>View Task</title>
+    <title>Chopin Liszt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
 </head>
-	<body>
-		<ul>
-  			<li><a class="active" href="#home">Home</a></li>
-  			<li class="projects-menu">
-    			<a href="Project.html" class="dropbtn" onclick="#">Project</a>
-    			<div class="project-content" id="myProject">
-      			<a href="CreateProject.html">New Project</a>
-      			<a href="#">Create Task</a>
-      			<a href="Task.html">View Task</a>
-    			</div>
-  			</li>
-			<li><a href="#about">About</a></li>  			
-		</ul>
-		<h5><div>
-			<br>Task ID<br><input type="text" name="task_id" placeholder="Project ID" value="{{request.form.task_id}}" /><br>
-			<br>Start Time<br><input type="text" name="start_time" placeholder="00:00 pm" value="{{request.form.start_time}}" /><br>
-			<br>End Time<br><input type="text" name="end_time" placeholder="00:00 am" value="{{request.form.end_time}}" /><br>
-			<br>Description<br><input type="text" name="description" placeholder="Project Description" value="{{request.form.description}}"></textarea><br>
-		</div></h5>
-		<div>
-			<h5>Status</h5>
-			<input type="radio" name="status" id="open" value="{{request.form.status}}" checked />
-			<label for="open"> Open </label><br>
-			<br><input type="radio" name="status" id="close" value="{{request.form.status}}" />	
-			<label for="close"> Close </label><br>
+
+<body>
+    <nav>
+        <div class="container-fluid">
+            <ul>
+                <li><a href="{{ url_for('landing.index') }}"><img src="/static/img/ser322_tasklily_lily_128.png"></a></li>
+                <li><a href="{{ url_for("landing.index") }}">Home</a></li>
+                <li><a href="{{ url_for("core.projects") }}">Project</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for("auth.login") }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+	<div class="login-page">
+		<div class="form">
+			<form class="project-form" action="{{ url_for('core.create_task', project_id=project_id) }}" method="post">
+				<input type="text" name="name" placeholder="Task Name" value="{{ request.form.name }}" />
+				<input type="text" name="description" placeholder="Description" value="{{ request.form.description }}" />
+
+				<h1>Deadline</h1>
+				<input name="datetime" type="datetime-local" value="{{ request.form.datetime }}" />
+				<button type="submit">Create Task</button>
+			</form>
 		</div>
-		<div>
-  			<br><input type="submit" id="submit-btn" value="Submit" /><br>
-  		</div>
-	</body>
+	</div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+</body>
 </html>
