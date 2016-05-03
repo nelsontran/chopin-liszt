@@ -17,7 +17,7 @@ $.fn.setNow = function (onlyBlank) {
   minutes = now.getMinutes().toString().length === 1 ? '0' + now.getMinutes().toString() : now.getMinutes();
   seconds = '00';
 
-  formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
+  formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes;
 
   if ( onlyBlank === true && $(this).val() ) {
     return this;
