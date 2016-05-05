@@ -92,6 +92,10 @@ nav li a:hover {
   margin: 15px;
 }
 
+#login-logo {
+    margin-bottom: 32px;
+}
+
 .form {
     position: relative;
     z-index: 1;
