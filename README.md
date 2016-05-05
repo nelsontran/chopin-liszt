@@ -32,8 +32,8 @@ A running instance of this project is being hosted at [lily.ntt.io](http://lily.
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/nelsontran/ser322-lilytask
-cd ser322-lilytask/
+git clone https://github.com/nelsontran/lilytask
+cd lilytask/
 ```
 
 ## Install System Dependencies
