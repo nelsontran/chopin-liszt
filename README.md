@@ -1,5 +1,15 @@
 # LilyTask
 
+LilyTask is a project created for the Database Management class at Arizona State University. The goal of the project was to implement a database system application and demonstrate that we understand how to:
+
+- Create a conceptual database design using entity-relationship modeling.
+- Convert the entity-relationship model into a relational schema.
+- Normalize the relational schema to reduce redundancy.
+- Write SQL commands to perform CRUD operations on the database.
+- Integrate our database system into a web application.
+
+A running instance of this project is being hosted at [lily.ntt.io](http://lily.ntt.io).
+
 # Table of Contents
 
 - [LilyTask](#lilytask)
