@@ -2,7 +2,7 @@
 
 # Table of Contents
 
-- [chopin-liszt](#chopin-liszt)
+- [LilyTask](#lilytask)
 - [Table of Contents](#table-of-contents)
 - [Setup Instructions](#setup-instructions)
 	- [Clone the Repository](#clone-the-repository)
@@ -20,8 +20,8 @@
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/nelsontran/chopin-liszt
-cd chopin-liszt/
+git clone https://github.com/nelsontran/ser322-lilytask
+cd ser322-lilytask/
 ```
 
 ## Install System Dependencies
@@ -47,7 +47,7 @@ Connect to your MySQL server and create a database.
 ```bash
 mysql -h localhost -P 3306 -u username -p
 
-> CREATE DATABASE chopin_liszt;
+> CREATE DATABASE lilytask;
 > exit
 ```
 
@@ -121,7 +121,7 @@ Navigate to the `deploy/` directory and edit the variables at the top of `deploy
 - `SERVER_NAME` is the domain name that the application will be served to.
 - `SECRET_KEY` is the key used to sign user session cookies. Keep this really secret.
 
-Save and run the script to deploy the application. This will install `chopin-liszt` to the specified deployment directory and configure the Apache server to run the application.
+Save and run the script to deploy the application. This will install `lilytask` to the specified deployment directory and configure the Apache server to run the application.
 
 ```bash
 sudo bash deploy.sh
