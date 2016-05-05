@@ -83,6 +83,8 @@ class ProjectPermission(Base):
                         where pp.user_id ="' + str(user_id) \
                         + '" and pp.project_id ="' + str(project_id) + '"')
         result = engine.execute(sql)
+
+        group = None
         for row in result:
             group = row[0]
 
