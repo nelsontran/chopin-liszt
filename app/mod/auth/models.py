@@ -33,6 +33,9 @@ class User(Base, UserMixin):
     def get_full_name(self):
         return self.first_name + " " + self.last_name
 
+    def get_email(self):
+        return self.email;
+
     def get_user(email):
         user = db_session.query(User) \
                          .select_from(User) \

@@ -73,6 +73,10 @@ class ProjectPermission(Base):
                     'project_id="' + str(project_id) + '"')
         result = engine.execute(sql)
 
+    def get_collaborators(project_id):
+        sql = text ('select user_id from project_permission where project_permission.project_id=' + str(project_id))
+        return engine.execute(sql)
+
     def get_permission(user_id, project_id):
         sql = text ('select pp.group \
                         from project_permission pp \
@@ -84,6 +88,12 @@ class ProjectPermission(Base):
 
         return group
 
+    def remove_permission(user_id, project_id):
+        db_session.query(ProjectPermission).filter(ProjectPermission.user_id == user_id)\
+                          .filter(ProjectPermission.project_id == project_id)\
+                          .delete(synchronize_session='evaluate')
+        db_session.commit()
+
     def __repr__(self):
         return "<ProjectPermission %r>" % (self.project_id)
 
@@ -92,8 +102,8 @@ class TimeEntry(Base):
     time_entry_id = Column(Integer, primary_key=True)
     task_id = Column(Integer, ForeignKey("task.task_id"))
     user_id = Column(Integer, ForeignKey("user.user_id"))
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
+    start_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, nullable=False)
 
     def __init__(self, task_id=None, user_id=None, date=None, start_time=None, end_time=None):
         self.task_id = task_id

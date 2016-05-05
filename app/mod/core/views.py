@@ -25,8 +25,15 @@ def projects():
 @login_required
 def tasks(project_id):
 
+    collaborators_results = ProjectPermission.get_collaborators(project_id)
     active_tasks_results = Task.get_active_tasks(project_id)
     completed_tasks_results = Task.get_completed_tasks(project_id)
+
+    collaborators = {
+        "id": [],
+        "name": [],
+        "email": []
+    }
 
     active_tasks = {
         "id": [],
@@ -39,6 +46,17 @@ def tasks(project_id):
         "description": [],
         "time_spent": []
     }
+
+    is_user_admin = False
+    if ProjectPermission.get_permission(current_user.get_id(), project_id) == "admin":
+        is_user_admin = True
+
+    for row in collaborators_results:
+        if current_user.get_id() != row[0]:
+            user = User.get(row[0])
+            collaborators["id"].append(row[0]);
+            collaborators["name"].append(user.get_full_name())
+            collaborators["email"].append(user.get_email())
 
     for row in active_tasks_results:
         active_tasks["id"].append(row[0])
@@ -72,7 +90,7 @@ def tasks(project_id):
 
         completed_tasks["time_spent"].append(time_spent)
 
-    return render_template("tasks.html", project_id=project_id, active_tasks=active_tasks, completed_tasks=completed_tasks)
+    return render_template("tasks.html", is_user_admin=is_user_admin, collaborators=collaborators, project_id=project_id, active_tasks=active_tasks, completed_tasks=completed_tasks)
 
 @core.route("/projects/create", methods=["GET", "POST"])
 @login_required
@@ -210,8 +228,14 @@ def uncomplete_task():
 
 @core.route("/get_collaborator")
 def get_collaborator():
+    project_id = request.args.get('project_id', 0, type=int)
     email = request.args.get('email', 0, type=str)
     user = User.get_user(email)
+
+    if project_id != 0 and user is not None:
+        permission = ProjectPermission(user_id = User.get_user(email).get_id(), project_id=project_id, group="user")
+        db_session.add(permission)
+        db_session.commit()
 
     if user is not None:
         fullname = user.get_full_name()
@@ -222,6 +246,12 @@ def get_collaborator():
 @core.route("/remove_collaborator")
 def remove_collaborator():
     email = request.args.get('email', 0, type=str)
+    user_id = request.args.get('user_id', 0, type=int)
+    project_id = request.args.get('project_id', 0, type=int)
+
+    if user_id is not None:
+        ProjectPermission.remove_permission(user_id, project_id)
+
     return jsonify(result=True)
 
 @core.route("/record_time_entry")

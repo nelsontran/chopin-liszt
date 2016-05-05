@@ -4,7 +4,6 @@
 <head>
     <title>LilyTask</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
 </head>
@@ -30,19 +29,32 @@
 		<div class="form">
 			<form id="create-task" action="{{ url_for('core.create_task', project_id=project_id) }}">
 
+                <input type="text" name="collaborator" placeholder="Collaborator Email Address">
+					<button type="button" id="add-collaborator">Add Collaborator</button>
+				</input>
+
                 <h1>Collaborators</h1>
                 <table id="collaborators" class="flat-table">
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        {% if current_user.is_admin %}
+                        {% if is_user_admin %}
                             <th>Remove</th>
                         {% endif %}
                     </tr>
+                    {% for row in range(collaborators['id']|count) %}
+                        <tr>
+                            <td><a id="{{ collaborators['id'][row] }}">{{ collaborators['name'][row] }}</a></td>
+                            <td>{{ collaborators['email'][row] }}</td>
+                            {% if is_user_admin %}
+                                <td><button id="remove-collaborator" type="button">X</button></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                 </table>
                 <br>
 
-				<button type="submit" style="margin-bottom: 32px;">Create New Task</button>
+				<button type="submit">Create New Task</button>
 				<h1>Active Tasks</h1>
 				<table id="active-tasks" class="flat-table">
 					<tr>
@@ -134,6 +146,40 @@
 					else {
 						alert('Failed to complete task.')
 					}
+                });
+                return false;
+            });
+
+            $(document).on('click', '#remove-collaborator', function() {
+                that = this;
+                $.getJSON($SCRIPT_ROOT + '/remove_collaborator', {
+                    user_id: $(this).parent().parent().find('a').attr('id'),
+                    project_id: {{ project_id }}
+                }, function(data) {
+                    $(that).closest('tr').remove();
+                });
+                return false;
+            });
+
+            $('button#add-collaborator').on('click', function() {
+                $.getJSON($SCRIPT_ROOT + '/get_collaborator', {
+                    project_id: {{ project_id }},
+                    email: $('input[name="collaborator"]').val()
+                }, function(data) {
+                    if (data.result == true) {
+                        $('#collaborators tbody').append(' \
+                            <tr> \
+                                <td>' + data.fullname + '</td> \
+                                <td>' + data.email + '</td> \
+                                <td> \
+                                    <button id="remove-collaborator" type="button">X</button> \
+                                </td> \
+                            </tr> \
+                        ')
+                    }
+                    else {
+                        alert('There does not exist a user with that email address.');
+                    }
                 });
                 return false;
             });
