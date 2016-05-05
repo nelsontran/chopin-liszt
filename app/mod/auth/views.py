@@ -25,6 +25,8 @@ def register():
 
             print("Register successful!")
 
+            return render_template("login.html", display_register_form=False)
+
         except IntegrityError as e:
             print("Username or email already in use.")
 
