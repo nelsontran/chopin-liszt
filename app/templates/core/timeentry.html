@@ -76,6 +76,7 @@
     </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/default-datetime.js') }}"></script>
     <script type="text/javascript">
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
@@ -100,6 +101,7 @@
 					end_time: $('#end-time').val()
 				}, function(data) {
 					$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+                    location.reload();
 				});
 				return false;
 			});

@@ -48,21 +48,24 @@
 
             <div id="development">
                 <h3>How do I follow LilyTask development?</h3>
-                <!--<p>You can find LilyTask's GitHub repository </p>
-                <a href="https://github.com/nelsontran/ser322-lilytask">here.</a>
-                <p> (That is, if it's even touched after the ASU Spring 2016 semester)</p>-->
-                <a href="https://github.com/nelsontran/ser322-lilytask">You can find LilyTask's GitHub repository here. (That is, if it's even touched after the ASU Spring 2016 semester)</a>
+                <a href="https://github.com/nelsontran/lilytask">You can find LilyTask's GitHub repository here. (That is, if it's even touched after the ASU Spring 2016 semester)</a>
                 <br>
             </div>
 
             <br>
 
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/-JmcublYpyo" frameborder="0" allowfullscreen></iframe>
-
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/CXeQBYxe-Yw" frameborder="0" allowfullscreen></iframe>
+            <video class="video" width="66%" muted autoplay loop>
+                <source src="/static/vid/dev0.mp4" type="video/mp4">
+            </video>
+            <video class="video" width="21%" height="100%" muted autoplay loop>
+                <source src="/static/vid/dev1.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
 
+    <script type="text/javascript">
+      $('.video').click(function(){this.paused?this.play():this.pause();});
+    </script>
 </body>
 
 </html>

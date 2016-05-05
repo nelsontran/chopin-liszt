@@ -23,7 +23,7 @@ rm -r ${INSTALL_DIR}
 mkdir -p ${INSTALL_DIR}
 
 # copy files over to installation directory
-echo "  > Installing chopin-liszt to ${INSTALL_DIR}..."
+echo "  > Installing LilyTask to ${INSTALL_DIR}..."
 cp -r ../app ${INSTALL_DIR}/app
 cp ../config.json ${INSTALL_DIR}/config.json
 

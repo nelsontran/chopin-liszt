@@ -1,8 +1,20 @@
 # LilyTask
 
+LilyTask is a project created for the Database Management class at Arizona State University. The goal of the project was to implement a database system application and demonstrate that we understand how to:
+
+- Create a conceptual database design using entity-relationship modeling.
+- Convert the entity-relationship model into a relational schema.
+- Normalize the relational schema to reduce redundancy.
+- Write SQL commands to perform CRUD operations on the database.
+- Integrate our database system into a web application.- 
+
+A running instance of this project is being hosted at [lily.ntt.io](http://lily.ntt.io).
+
+![design](https://cloud.githubusercontent.com/assets/10904556/15035440/d550a9e6-1236-11e6-878f-694b269c9e62.png)
+
 # Table of Contents
 
-- [chopin-liszt](#chopin-liszt)
+- [LilyTask](#lilytask)
 - [Table of Contents](#table-of-contents)
 - [Setup Instructions](#setup-instructions)
 	- [Clone the Repository](#clone-the-repository)
@@ -20,8 +32,8 @@
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/nelsontran/chopin-liszt
-cd chopin-liszt/
+git clone https://github.com/nelsontran/lilytask
+cd lilytask/
 ```
 
 ## Install System Dependencies
@@ -47,7 +59,7 @@ Connect to your MySQL server and create a database.
 ```bash
 mysql -h localhost -P 3306 -u username -p
 
-> CREATE DATABASE chopin_liszt;
+> CREATE DATABASE lilytask;
 > exit
 ```
 
@@ -121,7 +133,7 @@ Navigate to the `deploy/` directory and edit the variables at the top of `deploy
 - `SERVER_NAME` is the domain name that the application will be served to.
 - `SECRET_KEY` is the key used to sign user session cookies. Keep this really secret.
 
-Save and run the script to deploy the application. This will install `chopin-liszt` to the specified deployment directory and configure the Apache server to run the application.
+Save and run the script to deploy the application. This will install `lilytask` to the specified deployment directory and configure the Apache server to run the application.
 
 ```bash
 sudo bash deploy.sh

@@ -92,6 +92,10 @@ nav li a:hover {
   margin: 15px;
 }
 
+#login-logo {
+    margin-bottom: 32px;
+}
+
 .form {
     position: relative;
     z-index: 1;
@@ -120,6 +124,14 @@ nav li a:hover {
     padding: 15px;
     box-sizing: border-box;
     font-size: 14px;
+}
+
+#names {
+  width: 45%;
+}
+
+input[name="firstname"] {
+    margin-right: 9.5%;
 }
 
 .form button {
