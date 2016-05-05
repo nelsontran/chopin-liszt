@@ -53,7 +53,7 @@
 
         $(function() {
             $('button#add-collaborator').on('click', function() {
-                $.getJSON($SCRIPT_ROOT + '/get_collaborator', 
+                $.getJSON($SCRIPT_ROOT + '/get_collaborator', {
                     email: $('input[name="collaborator"]').val()
                 }, function(data) {
                     if (data.result == true) {
