@@ -6,9 +6,11 @@ LilyTask is a project created for the Database Management class at Arizona State
 - Convert the entity-relationship model into a relational schema.
 - Normalize the relational schema to reduce redundancy.
 - Write SQL commands to perform CRUD operations on the database.
-- Integrate our database system into a web application.
+- Integrate our database system into a web application.- 
 
 A running instance of this project is being hosted at [lily.ntt.io](http://lily.ntt.io).
+
+![design](https://cloud.githubusercontent.com/assets/10904556/15035440/d550a9e6-1236-11e6-878f-694b269c9e62.png)
 
 # Table of Contents
 
