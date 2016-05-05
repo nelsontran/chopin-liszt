@@ -8,8 +8,8 @@ from app.database import Base, db_session
 class User(Base, UserMixin):
     __tablename__ = "user"
     user_id = Column(Integer, primary_key=True)
-    first_name = Column(String(32))
-    last_name = Column(String(32))
+    first_name = Column(String(32), nullable=False)
+    last_name = Column(String(32), nullable=False)
     username = Column(String(32), unique=True)
     password = Column(String(128))
     email = Column(String(256), unique=True)
