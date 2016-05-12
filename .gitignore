@@ -1,3 +1,6 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Other
 config.json
-.pyc
-*.pyc

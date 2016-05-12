@@ -19,7 +19,7 @@ cd "$(dirname "$0")"
 
 # clean installation directory
 echo "  > Cleaning ${INSTALL_DIR}..."
-rm -r ${INSTALL_DIR}
+rm -rf ${INSTALL_DIR}
 mkdir -p ${INSTALL_DIR}
 
 # copy files over to installation directory

@@ -1,7 +1,7 @@
 {
-    "user":     "ser322",
-    "password": "ser322passworD",
-    "host":     "68.104.132.169",
-    "port":     "32216",
-    "database": "final_322"
+    "user":     "username",
+    "password": "password",
+    "host":     "localhost",
+    "port":     "3306",
+    "database": "lilytask"
 }
