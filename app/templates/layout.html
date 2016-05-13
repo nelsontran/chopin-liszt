@@ -1,0 +1,52 @@
+{% extends "includes.html" %}
+    {% block layout %}
+        <header class="site-header">
+            <div class="container">
+                <div class="row">
+                    <div class="site-header-logo col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                        <a class="no-underline" href="/">
+                            <img class="site-header-icon" src="{{ url_for('static', filename='img/lilytask-icon.svg') }}" />
+                            <img class="site-header-text" src="{{ url_for('static', filename='img/lilytask-text.svg') }}" />
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-lg-push-4 col-xl-4 col-xl-push-4">
+                        <nav class="site-header-nav">
+                            <a href="/"><i class="fa fa-plus-circle fa-2x"></i></a>
+                            <a href="/"><i class="fa fa-pie-chart fa-2x"></i></a>
+                            <a href="/"><i class="fa fa-github fa-2x"></i></a>
+                            <a href="/"><i class="fa fa-sign-out fa-2x"></i></a>
+                        </nav>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-lg-pull-4 col-xl-4 col-xl-pull-4">
+                        <input class="filter-field" type="text" placeholder="filter projects...">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="minitron" class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div id="minitron-one" class="col-xs-12 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        Currently working on <a href="/">Chapter 5</a> in <a href="/">Interactive Computer Graphics</a>
+                    </div>
+                    <div id="minitron-two" class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        1:45:24 hours <a href="/"><i id="stop-timer-btn" class="fa fa-stop"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block body %}{% endblock %}
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <a href="http://github.com/nelsontran/lilytask" target="_blank">&lt;code&gt;</a> with ♥ by
+                        <a href="http://nelsontran.com/" target="_blank">Nelson Tran</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
