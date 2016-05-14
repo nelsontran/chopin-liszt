@@ -6,16 +6,16 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>LilyTask • a pond for your projects</title>
 
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/css/font-awesome.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/css/parallax-stars.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/parallax-stars.min.css') }}" />
     </head>
 
     <body>
         {% block layout %}{% endblock %}
-        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
     </body>
 </html>
