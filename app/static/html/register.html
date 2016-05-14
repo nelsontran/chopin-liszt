@@ -1,0 +1,23 @@
+<script type="text/ng-template" id="register.html">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Sign Up</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <input id="first-name-field" class="flat-input-field" type="text" ng-model="user.first_name" placeholder="First Name">
+                        <input id="last-name-field" class="flat-input-field" type="text" ng-model="user.last_name" placeholder="Last Name">
+                        <input id="email-field" class="flat-input-field" type="text" ng-model="user.email" placeholder="Email Address">
+                        <input id="password-field" class="flat-input-field" type="password" ng-model="user.password" placeholder="Password">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="flat-btn" type="submit" ng-click="register(user)">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>

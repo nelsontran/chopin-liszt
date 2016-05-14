@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="lilytask">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,7 +15,13 @@
 
     <body>
         {% block layout %}{% endblock %}
+
+        <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
         <script type="text/javascript" src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/js/angular.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/js/angular-route.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/js/angular-modal-service.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
     </body>
 </html>
