@@ -178,14 +178,13 @@ body {
     background: #f2f2f2;
     border-top: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-size: 14px;
-    font-weight: 700;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
 }
 
 #minitron-two {
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 12px;
 }
 
@@ -211,6 +210,45 @@ body {
     color: #92b24f;
 }
 
+#jumbotron {
+    font-size: 30px;
+    font-weight: 300;
+    text-align: center;
+    background: #fad5e5;
+    color: #7d6565;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    border-bottom: solid 1px #aaa;
+
+    /* parallax-stars.min.css */
+    background: radial-gradient(ellipse at bottom, #fff 0%, #f7b1cf 100%);
+    overflow: hidden;
+}
+
+#sign-up-btn {
+    -webkit-transition: background 1.0s ease;
+       -moz-transition: background 1.0s ease;
+        -ms-transition: background 1.0s ease;
+         -o-transition: background 1.0s ease;
+            transition: background 1.0s ease;
+
+    margin-top: 20px;
+    font-size: 14px;
+
+    outline: 0;
+    background: #f7b1cf;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#sign-up-btn:hover {
+    background: #92b24f;
+}
+
 @media(min-width:34em) {
     #minitron-one {
         text-align: left;
@@ -220,6 +258,17 @@ body {
         text-align: right;
         font-size: 16px;
         margin-top: 0px;
+    }
+
+    #sign-up-btn {
+        font-size: 20px;
+        width: 80%;
+    }
+}
+
+@media(min-width:62em) {
+    #sign-up-btn {
+        width: 60%;
     }
 }
 

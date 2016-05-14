@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def landing():
-    return render_template("body.html")
+    return render_template("landing.html")
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
