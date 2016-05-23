@@ -10,7 +10,7 @@ class User(Base, UserMixin):
     user_id = Column(Integer, primary_key=True)
     first_name = Column(String(32), nullable=False)
     last_name = Column(String(32), nullable=False)
-    email = Column(String(256), nullable=False, unique=True)
+    email = Column(String(128), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
 
     def __init__(self, first_name=None, last_name=None, email=None, password=None):
