@@ -4,6 +4,8 @@ LilyTask is a time tracking application for your personal projects.
 
 A running instance of this project is being hosted at [lily.ntt.io](http://lily.ntt.io).
 
+![ER Diagram](https://cloud.githubusercontent.com/assets/10904556/15520443/5abcc50e-21bb-11e6-991c-3ff8203c3ba9.png)
+
 # Table of Contents
 
 - [LilyTask](#lilytask)
