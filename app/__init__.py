@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from flask import Flask, jsonify, render_template, request
-from flask.ext.login import LoginManager
+from flask import Flask, jsonify, render_template, redirect, request, url_for
+from flask.ext.login import current_user, LoginManager, login_required, login_user, logout_user
 from app.database import db_session
 from app.models import User
 
@@ -36,6 +36,43 @@ def register():
         return jsonify(success=False)
 
     return jsonify(success=True)
+
+@app.route("/login", methods=["POST"])
+def login():
+    try:
+        email = request.json['email']
+        password = request.json['password']
+    except KeyError:
+        return jsonify(success=False)
+
+    user = db_session.query(User) \
+                     .filter(User.email.like(email)) \
+                     .first()
+
+    if user is not None and user.check_password(password):
+        user.authenticated = True
+        db_session.add(user)
+        db_session.commit()
+        login_user(user)
+        return jsonify(success=True)
+
+    return jsonify(success=False)
+
+@app.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    user = current_user
+    user.authenticated = False
+    db_session.add(user)
+    db_session.commit()
+    logout_user()
+
+    if request.method == "GET":
+        return redirect(url_for('index'))
+
+@app.route("/logged_in", methods=["POST"])
+def logged_in():
+    return jsonify(authenticated=bool(current_user.is_authenticated))
 
 @login_manager.user_loader
 def load_user(user_id):

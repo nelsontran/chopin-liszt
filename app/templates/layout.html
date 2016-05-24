@@ -3,27 +3,68 @@
         <header class="site-header">
             <div class="container">
                 <div class="row">
-                    <div class="site-header-logo col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                    <div class="site-header-logo-wrapper col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                         <a class="no-underline" href="/">
-                            <img class="site-header-icon" src="{{ url_for('static', filename='img/lilytask-icon.svg') }}" />
-                            <img class="site-header-text" src="{{ url_for('static', filename='img/lilytask-text.svg') }}" />
+                            <span class="site-header-logo">
+                                <img class="site-header-icon" src="{{ url_for('static', filename='img/lilytask-icon.svg') }}" />
+                                <img class="site-header-text" src="{{ url_for('static', filename='img/lilytask-text.svg') }}" />
+                            </span>
                         </a>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-lg-push-4 col-xl-4 col-xl-push-4">
+                        {% if current_user.is_authenticated %}
                         <nav class="site-header-nav">
                             <a href="/"><i class="fa fa-plus-circle fa-2x"></i></a>
                             <a href="/"><i class="fa fa-pie-chart fa-2x"></i></a>
                             <a href="/"><i class="fa fa-github fa-2x"></i></a>
-                            <a href="/"><i class="fa fa-sign-out fa-2x"></i></a>
+                            <a href="/logout"><i class="fa fa-sign-out fa-2x"></i></a>
                         </nav>
+                        {% else %}
+                        <nav class="site-header-nav">
+                            <div class="container" ng-app="lilytask" ng-controller="ShowLoginController">
+                                <a href="/"><i class="fa fa-github fa-2x"></i></a>
+                                <a href="" ng-click="show()"><i class="fa fa-sign-in fa-2x"></i></a>
+                                <script type="text/ng-template" id="login.html">
+                                    <div class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Login</h4>
+                                                </div>
+                                                <form>
+                                                    <div class="modal-body">
+                                                        <input id="email-field" class="flat-input-field" type="email" ng-model="user.email" placeholder="Email Address"
+                                                        pattern="\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b"
+                                                        onchange="try{setCustomValidity('')}catch(e){}" required>
+
+                                                        <input id="password-field" class="flat-input-field" type="password" ng-model="user.password" placeholder="Password"
+                                                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&:;,.{}/\\\[\]<>\-=_+()\^`~]{8,}$"
+                                                        oninvalid="setCustomValidity('Your password must contain at least 8 characters with at least 1 letter and 1 number.')"
+                                                        onchange="try{setCustomValidity('')}catch(e){}" required>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="flat-btn" type="submit" ng-click="login(user)">Login</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </script>
+                            </div>
+                        </nav>
+                        {% endif %}
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-lg-pull-4 col-xl-4 col-xl-pull-4">
+                        {% if current_user.is_authenticated %}
                         <input class="flat-input-field filter-field" type="text" placeholder="filter projects...">
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </header>
 
+        {% if current_user.is_authenticated %}
         <div id="minitron" class="container-fluid">
             <div class="container">
                 <div class="row">
@@ -36,6 +77,17 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div id="minitron" class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <a href="https://github.com/nelsontran/lilytask/tree/dev" target="_blank">LilyTask v2.0</a> is now currently in development!
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
         {% block body %}{% endblock %}
 
