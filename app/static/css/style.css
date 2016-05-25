@@ -157,7 +157,7 @@ form input {
     color: #92B24F;
 }
 
-.filter-field {
+#filter-field {
     margin-top: 20px;
     margin-left: 15%;
     padding: 10px;
@@ -165,7 +165,7 @@ form input {
     width: 70%;
 }
 
-.filter-field:hover {
+#filter-field:hover {
     color: #333333;
     background: #caedb9;
 }
@@ -180,8 +180,14 @@ form input {
 }
 
 #email-field,
-#password-field {
+#password-field,
+#project-name-field,
+#project-tags-field {
     width: 100%;
+}
+
+#project-image {
+    margin-top: 0px;
 }
 
 @media(min-width:34em) {
@@ -190,7 +196,7 @@ form input {
         float: right;
     }
 
-    .filter-field {
+    #filter-field {
         margin-top: 10px;
         margin-left: 0;
         width: 100%;
@@ -209,7 +215,7 @@ form input {
 }
 
 @media(min-width:62em) {
-    .filter-field {
+    #filter-field {
         margin-top: -4px;
     }
 }

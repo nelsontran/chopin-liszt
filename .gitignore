@@ -3,4 +3,5 @@ __pycache__/
 *.py[cod]
 
 # Other
+app/static/img/uploads/
 config.json

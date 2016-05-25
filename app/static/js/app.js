@@ -114,3 +114,43 @@ app.controller('LoginController', ['$scope', '$element', 'close', function($scop
         close(result, 500);
     };
 }]);
+
+app.controller('ShowCreateProjectController', function($scope, ModalService) {
+    $scope.show = function() {
+        ModalService.showModal({
+            templateUrl: 'create_project.html',
+            controller: "CreateProjectController"
+        }).then(function(modal) {
+            modal.element.modal();
+        });
+    };
+});
+
+app.controller('CreateProjectController', ['$scope', '$element', 'close', function($scope, $element, close) {
+    $scope.createProject = function(project) {
+        var request = angular.copy(project);
+        var formData = new FormData($('form#create-project-form')[0]);
+        $.ajax({
+            type: 'POST',
+            contentType: false,
+            url: $SCRIPT_ROOT + '/create_project',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(result) {
+                console.log(result);
+                if (result.success) {
+                    $element.modal('hide');
+                    close(null, 500);
+                }
+            }
+        })
+    };
+
+    $scope.close = function(result) {
+        // close, but give 500ms for bootstrap to animate
+        close(result, 500);
+    };
+}]);
